@@ -28,9 +28,9 @@ class SortieController extends AbstractController
 
 
     /**
-     * @Route(name="creationAnnonce", path="creation-annonce", methods={"GET","POST"})
+     * @Route(name="creationSortie", path="creation-sortie", methods={"GET","POST"})
      */
-    public function createAnn (Request $request, EntityManagerInterface $entityManager)
+    public function createSortie(Request $request, EntityManagerInterface $entityManager)
     {
         // Initialiser l'objet mappé au formulaire
         $sortie = new Sortie();
