@@ -6,15 +6,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class LieuControlleurController extends AbstractController
+class SiteController extends AbstractController
 {
     /**
-     * @Route("/lieu/controlleur", name="lieu_controlleur")
+     * @Route("/site/controlleur", name="site_controlleur")
      */
     public function index(): Response
     {
-        return $this->render('lieu_controlleur/index.html.twig', [
-            'controller_name' => 'LieuControlleurController',
+        return $this->render('site_controlleur/index.html.twig', [
+            'controller_name' => 'SiteController',
         ]);
     }
 }
