@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Crétion d'une sortie{% endblock %}
+
+{% block body %}
+
+    <h1>Création d'une nouvelle sortie</h1>
+
+
+
+
+{{ form_start(formSortie) }}
+
+<div class="form-group">
+    {{ form_label((formSortie.nom)) }}
+    {{ form_widget(formSortie.nom, {'attr': {'class': 'form-control'}}) }}
+</div>
+
+
+
+{{ form_end(formSortie) }}
+
+
+{% endblock %}
