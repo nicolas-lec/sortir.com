@@ -13,7 +13,7 @@ class EtatController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('etat/index.html.twig', [
+        return $this->render('etat/sortie.html.twig', [
             'controller_name' => 'EtatController',
         ]);
     }

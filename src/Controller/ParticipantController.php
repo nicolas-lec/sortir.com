@@ -13,7 +13,7 @@ class ParticipantController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('participant/index.html.twig', [
+        return $this->render('participant/sortie.html.twig', [
             'controller_name' => 'ParticipantController',
         ]);
     }
