@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Participant;
+use App\Form\ParticipantType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,12 +12,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class ParticipantController extends AbstractController
 {
     /**
-     * @Route("/participant", name="participant")
+     * @Route(path="register-user", name="registerUser", methods={"GET","POST"})
      */
-    public function index(): Response
+    public function inscription(EntityManagerInterface $entityManager): Response
     {
-        return $this->render('participant/index.html.twig', [
-            'controller_name' => 'ParticipantController',
-        ]);
+        $participant = new Participant();
+        $form = $this->createForm(ParticipantType::class);
+
+        if  ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($participant);
+            $entityManager->flush();
+        }
+        return $this->render('participant/register.html.twig',
+            ['participantForm' => $form->createView()]
+        );
     }
 }

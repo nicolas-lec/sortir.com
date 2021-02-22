@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription d'un nouvel utilisateur{% endblock %}
+
+{% block body %}
+
+    <h1>Inscription</h1>
+
+
+    {% form_theme participantForm 'bootstrap_4_layout.html.twig' %}
+    {{ form(participantForm) }}
+
+{% endblock %}
+
