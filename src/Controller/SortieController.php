@@ -55,6 +55,8 @@ class SortieController extends AbstractController
 
         }
 
+        
+
         // Appel à la vue pour afficher le formulaire
         return $this->render('sortie/sortie.html.twig', ['formSortie' => $form->createView()]);
 
