@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Annonce;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -55,7 +54,6 @@ class SortieController extends AbstractController
 
         }
 
-        
 
         // Appel à la vue pour afficher le formulaire
         return $this->render('sortie/sortie.html.twig', ['formSortie' => $form->createView()]);
@@ -79,8 +77,43 @@ class SortieController extends AbstractController
         }
 
         // Récupération des idées dans la base de données
-        $sorties = $entityManager->getRepository('App:Idea')->getAll($category ?? null);
+        $sorties = $entityManager->getRepository('App:Sortie')->findAll();
 
         return $this->render('sortie/sortie.html.twig', ['sorties' => $sorties, 'formSortie' => $formSortie->createView()]);
+    }
+
+    /**
+     * @Route(name="detailSortie", methods={"GET","POST"}, path="detail/{id}", requirements={"id": "\d+"})
+     */
+    public function detailSortie(Request $request, EntityManagerInterface $entityManager)
+    {
+        $id=$request->get('id');
+
+        $sortie = $entityManager -> getRepository('App:Sortie')->getById($id);
+
+
+        return $this->render('sortie/detailSortie.html.twig', ['sortie'=>$sortie]);
+    }
+
+
+    /**
+     * @Route(name="inscriptionSortie", methods={"POST"}, path="inscriptionSortie/{id}")
+     */
+    public function inscriptionSortie(Request $request, EntityManagerInterface $entityManager) :Response
+    {
+        //Récupération  des entités
+        $idParticipant = $this->getUser();
+        $idSortie = $request->get('id');
+
+        //Liaison entre sorties et participant
+        $idParticipant->addSortie($idSortie);
+        $idSortie -> addIdparticipant($idParticipant);
+
+        $entityManager -> persist($idParticipant);
+        $entityManager -> persist($idSortie);
+
+        $entityManager ->flush();
+
+        return new Reponse();
     }
 }
