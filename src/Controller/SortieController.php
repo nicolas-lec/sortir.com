@@ -52,35 +52,9 @@ class SortieController extends AbstractController
 
             // Ajout d'un message de confirmation
             $this->addFlash('success', 'Votre sortie a été ajoutée avec succès !');
-
         }
-
-        
-
         // Appel à la vue pour afficher le formulaire
         return $this->render('sortie/sortie.html.twig', ['formSortie' => $form->createView()]);
 
-    }
-
-    /**
-     * @Route(name="sortie", path="", methods={"GET", "POST"})
-     */
-    public function sortie(Request $request, EntityManagerInterface $entityManager)
-    {
-        // Création du formulaire
-        $formSortie = $this->createForm('App\Form\SortieType');
-
-        // Récupération des données de la requête HTTP (Navigateur) au formulaire
-        $formSortie->handleRequest($request);
-
-        // Vérification de la soumission du formulaire
-        if ($formSortie->isSubmitted() && $formSortie->isValid()) {
-            $category = $formSortie->get('category')->getData();
-        }
-
-        // Récupération des idées dans la base de données
-        $sorties = $entityManager->getRepository('App:Idea')->getAll($category ?? null);
-
-        return $this->render('sortie/sortie.html.twig', ['sorties' => $sorties, 'formSortie' => $formSortie->createView()]);
     }
 }
