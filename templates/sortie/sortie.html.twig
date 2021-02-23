@@ -57,9 +57,20 @@
                     {{ form_widget(formSortie.submit, {'attr': {'class': 'btn btn-primary'}}) }}
                 </div>
 
+                {# Groupes #}
+                <ul>
+                    {% for groupe in idea.groupes %}
+                        <li> - {{ groupe.name }}</li>
+                    {% endfor %}
+                </ul>
+                </ul>
+                <a class="btn btn-lg btn-block btn-primary" href="{{ url('sortie_details', {"id": sortie.id}) }}">Voir</a>
+
             </div>
 
         {{ form_end(formSortie) }}
+
+
 
     {% endfor %}
 
