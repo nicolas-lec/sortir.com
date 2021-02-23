@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +48,16 @@ class Sortie
      * @ORM\Column(type="text")
      */
     private $infoSortie;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="sortie")
+     */
+    private $idparticipant;
+
+    public function __construct()
+    {
+        $this->idparticipant = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +132,33 @@ class Sortie
     public function setInfoSortie(string $infoSortie): self
     {
         $this->infoSortie = $infoSortie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Participant[]
+     */
+    public function getIdparticipant(): Collection
+    {
+        return $this->idparticipant;
+    }
+
+    public function addIdparticipant(Participant $idparticipant): self
+    {
+        if (!$this->idparticipant->contains($idparticipant)) {
+            $this->idparticipant[] = $idparticipant;
+            $idparticipant->addSortie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdparticipant(Participant $idparticipant): self
+    {
+        if ($this->idparticipant->removeElement($idparticipant)) {
+            $idparticipant->removeSortie($this);
+        }
 
         return $this;
     }
