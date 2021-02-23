@@ -9,10 +9,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route (name="participant_", path="participant/")
+ */
 class ParticipantController extends AbstractController
 {
     /**
-     * @Route(path="register-user", name="registerUser", methods={"GET","POST"})
+     * @Route(path="/register-user", name="registerUser", methods={"GET","POST"})
      */
     public function inscription(EntityManagerInterface $entityManager): Response
     {
@@ -28,21 +31,16 @@ class ParticipantController extends AbstractController
         );
     }
     /**
-     * @Route("/profil/detail/{id}", name="profil_detail")
-     * @param $id
-     * @param EntityManagerInterface $emi
-     * @return Response
+     * @Route("/profil", name="profil")
      */
-    public function profil($id,EntityManagerInterface $emi)
+    public function profil()
     {
-
-        $user = $emi->getRepository(Participant::class)->find($id);
-        if ($user==null) {
-            throw $this->createNotFoundException("L'utilisateur est absent dans la base de données. Essayez un autre ID !");
-        }
         return $this->render('participant/profil.html.twig', [
-            'controller_name' => 'ParticipantController',
-            'user_profil' => $user
+            'edit' => false,
+            'edit_password' => false,
+            'form' => null,
+            'page_name' => 'Profil'
         ]);
     }
+
 }
