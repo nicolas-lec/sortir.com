@@ -22,9 +22,11 @@
 
     <nav class=" sticky-top my-2 my-md-0 mr-md-3">
         <a class="p-2 text-dark" href="{{ url('home_home') }}">Accueil</a>
+        {% if app.user is not null %}
         <a class="p-2 text-dark" href="{{ url('sortie_creationSortie') }}">Crée une sortie</a>
         <a class="p-2 text-dark" href="">Voir les sorties</a>
         <a class="p-2 text-dark" href="{{ url('participant_profil') }}">Profil</a>
+        {% endif %}
     </nav>
     {% if app.user is null %}
         <a class="btn btn-outline-primary" href="/login">Se connecter</a>
