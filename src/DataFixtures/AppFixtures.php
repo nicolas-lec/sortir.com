@@ -3,7 +3,9 @@
 namespace App\DataFixtures;
 
 use App\Entity\Participant;
+use App\Entity\Sortie;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -35,4 +37,20 @@ class AppFixtures extends Fixture
 
         $manager->flush();
     }
+
+    public function sortie(ObjectManager $manager) {
+        for($i=0; $i<20; $i++) {
+            $sortie = new Sortie();
+            $sortie ->setNom('Sortie '.$i);
+            $sortie ->setDateHeureDebut(new \DateTime('20/02/2021'));
+            $sortie ->setDuree(60+$i);
+            $sortie ->setDateLimiteInscription(new \DateTime('25/03/2021'));
+            $sortie ->setNbInscriptionsMax(10+$i);
+            $sortie->setInfoSortie('Sortie ENI n°'.$i);
+            $manager->persist($sortie);
+        }
+        $manager->flush();
+    }
 }
+
+
