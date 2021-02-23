@@ -27,4 +27,22 @@ class ParticipantController extends AbstractController
             ['participantForm' => $form->createView()]
         );
     }
+    /**
+     * @Route("/profil/detail/{id}", name="profil_detail")
+     * @param $id
+     * @param EntityManagerInterface $emi
+     * @return Response
+     */
+    public function profil($id,EntityManagerInterface $emi)
+    {
+
+        $user = $emi->getRepository(Participant::class)->find($id);
+        if ($user==null) {
+            throw $this->createNotFoundException("L'utilisateur est absent dans la base de données. Essayez un autre ID !");
+        }
+        return $this->render('participant/profil.html.twig', [
+            'controller_name' => 'ParticipantController',
+            'user_profil' => $user
+        ]);
+    }
 }
