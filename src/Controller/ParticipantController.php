@@ -9,10 +9,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route (name="participant_", path="participant/")
+ */
 class ParticipantController extends AbstractController
 {
     /**
-     * @Route(path="register-user", name="registerUser", methods={"GET","POST"})
+     * @Route(path="/register-user", name="registerUser", methods={"GET","POST"})
      */
     public function inscription(EntityManagerInterface $entityManager): Response
     {
@@ -27,4 +30,17 @@ class ParticipantController extends AbstractController
             ['participantForm' => $form->createView()]
         );
     }
+    /**
+     * @Route("/profil", name="profil")
+     */
+    public function profil()
+    {
+        return $this->render('participant/profil.html.twig', [
+            'edit' => false,
+            'edit_password' => false,
+            'form' => null,
+            'page_name' => 'Profil'
+        ]);
+    }
+
 }
