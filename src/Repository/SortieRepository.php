@@ -19,6 +19,15 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
+
+    public function getAll (int $page)
+    {
+        return $this->createQueryBuilder('sortieA')
+            ->setMaxResults(15)
+            ->setFirstResult((abs($page) - 1) * 9)
+            ->orderBy('sortieA.dateHeureDebut', 'desc')->getQuery()->getResult();
+    }
+
     public function getById(int $id)
     {
         return $this->createQueryBuilder('sortie')

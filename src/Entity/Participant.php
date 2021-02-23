@@ -212,6 +212,20 @@ class Participant implements UserInterface
         return $this;
     }
 
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->password;
+    }
+
+
+    public function setPlainPassword(string $user): self
+    {
+        $this->password = $user;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Sortie[]
      */
@@ -235,4 +249,23 @@ class Participant implements UserInterface
 
         return $this;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

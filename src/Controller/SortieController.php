@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Annonce;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -54,6 +55,7 @@ class SortieController extends AbstractController
 
         }
 
+        
 
         // Appel à la vue pour afficher le formulaire
         return $this->render('sortie/sortie.html.twig', ['formSortie' => $form->createView()]);
@@ -77,10 +79,11 @@ class SortieController extends AbstractController
         }
 
         // Récupération des idées dans la base de données
-        $sorties = $entityManager->getRepository('App:Sortie')->findAll();
+        $sorties = $entityManager->getRepository('App:Idea')->getAll($category ?? null);
 
         return $this->render('sortie/sortie.html.twig', ['sorties' => $sorties, 'formSortie' => $formSortie->createView()]);
     }
+
 
     /**
      * @Route(name="detailSortie", methods={"GET","POST"}, path="detail/{id}", requirements={"id": "\d+"})
