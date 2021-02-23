@@ -53,6 +53,7 @@ class ParticipantType extends AbstractType
         ])
     ;
     }
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

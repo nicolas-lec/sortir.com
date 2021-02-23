@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bonjour, {% endblock %}
+{% block title %}Bonjour,{{ app.user.nom}} {% endblock %}
 
 {% block body %}
     <div class="card">
@@ -15,17 +15,11 @@
                     <a href="#" class="d-block"><i class="fas fa-phone"></i> {{ app.user.telephone }}</a>
                 {% endif %}
             </div>
-            <div class="col-auto w-100">
-                {% if edit %}
-                    {% if form is not null %}
-                        {{ form(form) }}
-                    {% endif %}
-                {% elseif edit_password %}
-                    {% if form is not null %}
-                        {{ form(form) }}
-                    {% endif %}
-                {% endif %}
-            </div>
         </div>
+        {% if app.user.id is not null  %}
+        <div class="col text-center">
+            <a class="btn btn-info" href="{{ url('participant_update') }}">Modifier</a>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}

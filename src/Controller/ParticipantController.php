@@ -4,10 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\ParticipantType;
+use App\Form\UpdateParticipantType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route (name="participant_", path="participant/")
@@ -31,15 +35,41 @@ class ParticipantController extends AbstractController
         );
     }
     /**
-     * @Route("/profil", name="profil")
+     * @Route(path="profil", name="profil")
      */
     public function profil()
     {
+
         return $this->render('participant/profil.html.twig', [
-            'edit' => false,
-            'edit_password' => false,
-            'form' => null,
-            'page_name' => 'Profil'
+            'controller_name' => 'ParticipantController'
+        ]);
+    }
+
+    /**
+     * @Route(path="profil/update", name="update")
+     * @param Request $request
+     * @param EntityManagerInterface $emi
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return RedirectResponse|Response
+     */
+
+    public function update(Request $request, EntityManagerInterface $emi, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $user = $emi->getRepository(Participant::class)->find($this->getUser()->getId());
+        $formUser = $this->createForm(UpdateParticipantType::class, $user);
+        $formUser->handleRequest($request);
+        if ($formUser->isSubmitted() && $formUser->isValid()) {
+            if($formUser->get('passwordPlain')->getData() !== null) {
+                $hashed = $passwordEncoder->encodePassword($user, $formUser->get('passwordPlain')->getData());
+                $user->setPassword($hashed);
+            }
+            $emi->persist($user);
+            $emi->flush();
+            return $this->redirectToRoute("participant_profil", ["id" => $user->getId()]);
+        }
+        return $this->render("participant/update.html.twig", [
+            'formUser' => $formUser->createView(),
+            'user' => $user
         ]);
     }
 
