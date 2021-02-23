@@ -4,7 +4,10 @@ namespace App\Form;
 
 use App\Entity\Sortie;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,14 +15,42 @@ class SortieType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('nom')
-            ->add('dateHeureDebut')
-            ->add('duree')
-            ->add('dateLimiteInscription')
-            ->add('nbInscriptionsMax')
-            ->add('infoSortie')
-        ;
+        $builder->add('nom', TextType::class, [
+            'label' => 'Nom de la sortie :',
+            'trim' => true,
+            'required' => true,
+        ]);
+
+        $builder->add('dateHeureDebut', DateType::class, [
+            'label' => 'Heure de début :',
+            'trim' => true,
+            'required' => true,
+        ]);
+
+        $builder ->add('duree', IntegerType::class, [
+            'label' => 'Durée de la sortie :',
+            'trim' => true,
+            'required' => true,
+        ]);
+
+        $builder ->add('dateLimiteInscription', DateType::class, [
+            'label' => 'Date limite d\'inscription :',
+            'trim' => true,
+            'required' => true,
+        ]);
+
+        $builder ->add('nbInscriptionsMax', IntegerType::class, [
+            'label' => 'Nombre max d\'inscription :',
+            'trim' => true,
+            'required' => true,
+        ]);
+
+        $builder ->add('infoSortie', TextType::class, [
+            'label' => 'Description :',
+            'trim' => true,
+            'required' => true,
+        ]);
+
         $builder->add('submit', SubmitType::class, [
             'label' => 'Envoyer',
         ]);

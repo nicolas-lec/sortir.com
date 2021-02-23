@@ -52,13 +52,20 @@ class SortieController extends AbstractController
 
             // Ajout d'un message de confirmation
             $this->addFlash('success', 'Votre sortie a été ajoutée avec succès !');
-
         }
-
-        
-
         // Appel à la vue pour afficher le formulaire
         return $this->render('sortie/sortie.html.twig', ['formSortie' => $form->createView()]);
 
     }
+
+    public function affichageSortie (Request $request)
+    {
+
+
+
+
+    }
+
+
+
 }
