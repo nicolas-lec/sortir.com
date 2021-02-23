@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Annonce;
+
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -53,8 +53,8 @@ class SortieController extends AbstractController
             // Ajout d'un message de confirmation
             $this->addFlash('success', 'Votre sortie a été ajoutée avec succès !');
         }
-        // Appel à la vue pour afficher le formulaire
         return $this->render('sortie/sortie.html.twig', ['formSortie' => $form->createView()]);
 
     }
 }
+
