@@ -35,7 +35,7 @@ class SortieController extends AbstractController
         // Initialiser l'objet mappé au formulaire
         $sortie = new Sortie();
 
-        $sortie->setDateHeureDebut(new \DateTime('now'));
+        $sortie->setDateHeureDebut(new \DateTime('now')) ;
 
         // Création du formulaire
         $form = $this->createForm(SortieType::class, $sortie);

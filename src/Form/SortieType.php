@@ -27,10 +27,6 @@ class SortieType extends AbstractType
             'label' => 'Heure de début :',
             'trim' => true,
             'required' => true,
-            'constraints' => [
-
-            ]
-
         ]);
 
         $builder ->add('duree', IntegerType::class, [
