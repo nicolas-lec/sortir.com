@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -126,20 +129,31 @@ class SortieController extends AbstractController
 
     /**
      * @Route(name="desinscriptionSortie",path="desinscriptionSortie/{id}" ,methods={"POST","GET"})
+     * @ParamConverter("post", options={"id" = "post_id"})
      */
     public function desinscriptionSortie (Sortie $sortie, EntityManagerInterface $entityManager)
     {
+        //Récupération  des entités
         $participant = $this->getUser();
 
-        $sortie -> removeIdparticipant($participant);
 
-        $entityManager -> persist($sortie);
+        if ($sortie->getEtat()->getId() === 4) {
 
-        $entityManager->flush();
+            //Suppression du participant dans la sortie
+            $sortie->removeIdparticipant($participant);
 
-        $this->addFlash('success', 'Vous vous êtes désinscrit avec succès !');
+            $entityManager->persist($sortie);
 
-        return $this->render('sortie/detailSortie.html.twig', ['sortie'=>$sortie]);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Vous vous êtes désinscrit avec succès !');
+        }
+        else {
+
+            $this->addFlash('warning', 'Non ! ');
+        }
+
+    return $this->render('sortie/detailSortie.html.twig', ['sortie'=>$sortie]);
 
 
     }

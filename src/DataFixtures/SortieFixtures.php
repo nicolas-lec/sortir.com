@@ -17,7 +17,7 @@ class SortieFixtures extends Fixture
         $this->encoder = $encoder;
     }
     public function load(ObjectManager $manager)
-    {
+    {-
         $etat1 = new Etat();
         $etat1 ->setLibelle('Publiée');
         $manager->persist($etat1);
