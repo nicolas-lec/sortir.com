@@ -139,7 +139,7 @@ class Sortie
     /**
      * @return Collection|Participant[]
      */
-    public function getIdparticipant(): Collection
+    public function getIddparticipant(): Collection
     {
         return $this->idparticipant;
     }
