@@ -54,6 +54,11 @@ class Sortie
      */
     private $idparticipant;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="sortie")
+     */
+    private $etat;
+
     public function __construct()
     {
         $this->idparticipant = new ArrayCollection();
@@ -159,6 +164,18 @@ class Sortie
         if ($this->idparticipant->removeElement($idparticipant)) {
             $idparticipant->removeSortie($this);
         }
+
+        return $this;
+    }
+
+    public function getEtat(): ?Etat
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?Etat $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }
