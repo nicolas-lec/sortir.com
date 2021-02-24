@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Annonce;
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -75,7 +75,7 @@ class SortieController extends AbstractController
         }
 
         // Récupération des idées dans la base de données
-        $sorties = $entityManager->getRepository('App:Idea')->getAll($category ?? null);
+        $sorties = $entityManager->getRepository('App:Sortie')->getAll($category ?? null);
 
         return $this->render('sortie/sortie.html.twig', ['sorties' => $sorties, 'formSortie' => $formSortie->createView()]);
     }
@@ -84,11 +84,12 @@ class SortieController extends AbstractController
     /**
      * @Route(name="detailSortie", methods={"GET","POST"}, path="detail/{id}", requirements={"id": "\d+"})
      */
-    public function detailSortie(Request $request, EntityManagerInterface $entityManager)
+    public function detailSortie($id,
+                                SortieRepository $repository)
     {
-        $id=$request->get('id');
 
-        $sortie = $entityManager -> getRepository('App:Sortie')->getById($id);
+
+        $sortie =$repository->find($id);
 
 
         return $this->render('sortie/detailSortie.html.twig', ['sortie'=>$sortie]);
@@ -96,24 +97,21 @@ class SortieController extends AbstractController
 
 
     /**
-     * @Route(name="inscriptionSortie", methods={"POST"}, path="inscriptionSortie/{id}")
+     * @Route(name="inscriptionSortie",path="inscriptionSortie/{id}" ,methods={"POST","GET"})
      */
-    public function inscriptionSortie(Request $request, EntityManagerInterface $entityManager) :Response
+    public function inscriptionSortie(Sortie $sortie, EntityManagerInterface $entityManager)
     {
         //Récupération  des entités
-        $idParticipant = $this->getUser();
-        $idSortie = $request->get('id');
+        $participant = $this->getUser();
 
-        //Liaison entre sorties et participant
-        $idParticipant->addSortie($idSortie);
-        $idSortie -> addIdparticipant($idParticipant);
+        //Liaison entre sortie et participant
+        $sortie -> addIdparticipant($participant);
 
-        $entityManager -> persist($idParticipant);
-        $entityManager -> persist($idSortie);
-
+        $entityManager -> persist($sortie);
+        //Envoi vers la base de données
         $entityManager ->flush();
 
-        return new Reponse();
+        return new Response('Insertion réussie!');
     }
 
 
