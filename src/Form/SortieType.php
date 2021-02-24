@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Sortie;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\DataTransformer\DateIntervalToStringTransformer;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -26,6 +27,10 @@ class SortieType extends AbstractType
             'label' => 'Heure de début :',
             'trim' => true,
             'required' => true,
+            'constraints' => [
+                new
+            ]
+
         ]);
 
         $builder ->add('duree', IntegerType::class, [
