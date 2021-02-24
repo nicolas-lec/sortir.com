@@ -139,7 +139,7 @@ class SortieController extends AbstractController
         }
         else {
 
-            $this->addFlash('warning', 'Non ! ');
+            $this->addFlash('warning', 'La sortie est en cours, impossible de se désinscrire !');
         }
 
     return $this->render('sortie/detailSortie.html.twig', ['sortie'=>$sortie]);
