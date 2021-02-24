@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Participant;
 use App\Form\ParticipantType;
 use App\Form\UpdateParticipantType;
+use App\Security\LoginAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 /**
  * @Route (name="participant_", path="participant/")
@@ -19,28 +21,40 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class ParticipantController extends AbstractController
 {
     /**
-     * @Route(path="/register-user", name="registerUser", methods={"GET","POST"})
+     * @Route(path="inscription", name="inscription", methods={"GET","POST"})
      */
-    public function inscription(EntityManagerInterface $entityManager): Response
+    public function inscription(EntityManagerInterface $entityManager, Request $request, LoginAuthenticator $login, GuardAuthenticatorHandler $guard, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $participant = new Participant();
         $form = $this->createForm(ParticipantType::class);
 
-        if  ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($participant);
             $entityManager->flush();
+
+            $participant->setPassword($passwordEncoder->encodePassword($participant, $participant->getPlainPassword()));
+
+            $participant->setRoles(['ROLE_ADMIN']);
+
+            $this->addFlash('success', 'L\'inscritpion a été un succès ! ;)');
+
+
+            return $guard->authenticateUserAndHandleSuccess($participant, $request, $login, 'app_user_provider');
+
+
         }
         return $this->render('participant/register.html.twig',
             ['participantForm' => $form->createView()]
         );
     }
+
     /**
-     * @Route("/profil", name="profil")
+     * @Route("profil", name="profil")
      */
     public function profil()
     {
         return $this->render('participant/profil.html.twig', [
-        'Controller_name'=>'ParticipantController'
+            'Controller_name' => 'ParticipantController'
         ]);
     }
 
@@ -58,7 +72,7 @@ class ParticipantController extends AbstractController
         $formUser = $this->createForm(UpdateParticipantType::class, $user);
         $formUser->handleRequest($request);
         if ($formUser->isSubmitted() && $formUser->isValid()) {
-            if($formUser->get('passwordPlain')->getData() !== null) {
+            if ($formUser->get('passwordPlain')->getData() !== null) {
                 $hashed = $passwordEncoder->encodePassword($user, $formUser->get('passwordPlain')->getData());
                 $user->setPassword($hashed);
             }

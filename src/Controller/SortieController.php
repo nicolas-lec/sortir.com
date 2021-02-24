@@ -52,15 +52,11 @@ class SortieController extends AbstractController
 
             // Ajout d'un message de confirmation
             $this->addFlash('success', 'Votre sortie a été ajoutée avec succès !');
-
         }
-
-        
-
-        // Appel à la vue pour afficher le formulaire
         return $this->render('sortie/sortie.html.twig', ['formSortie' => $form->createView()]);
 
     }
+
 
     /**
      * @Route(name="sortie", path="", methods={"GET", "POST"})
@@ -88,13 +84,9 @@ class SortieController extends AbstractController
     /**
      * @Route(name="detailSortie", methods={"GET","POST"}, path="detail/{id}", requirements={"id": "\d+"})
      */
-    public function detailSortie($id,
-                                SortieRepository $repository)
+    public function detailSortie($id, SortieRepository $repository)
     {
-
-
         $sortie =$repository->find($id);
-
 
         return $this->render('sortie/detailSortie.html.twig', ['sortie'=>$sortie]);
     }
@@ -119,4 +111,26 @@ class SortieController extends AbstractController
         $this->addFlash('success', 'Vous êtes inscrit à la sortie !');
         return $this->render('sortie/detailSortie.html.twig', ['sortie'=>$sortie]);
     }
+
+    /**
+     * @Route(name="desinscriptionSortie",path="desinscriptionSortie/{id}" ,methods={"POST","GET"})
+     */
+    public function desinscriptionSortie (Sortie $sortie, EntityManagerInterface $entityManager)
+    {
+        $participant = $this->getUser();
+
+        $sortie -> removeIdparticipant($participant);
+
+        $entityManager -> persist($sortie);
+
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Vous vous êtes désinscrit avec succès !');
+
+        return $this->render('sortie/detailSortie.html.twig', ['sortie'=>$sortie]);
+
+
+    }
+
+
 }
