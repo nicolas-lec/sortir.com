@@ -127,7 +127,7 @@ class SortieController extends AbstractController
         $participant = $this->getUser();
 
 
-        if ($sortie->getEtat()->getLibelle() === 4) {
+        if ($sortie->getEtat()->getId() === 4) {
 
             //Suppression du participant dans la sortie
             $sortie->removeIdparticipant($participant);
