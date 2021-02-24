@@ -3,6 +3,13 @@
 {% block title %} Détail d'une sortie {% endblock %}
 
 {% block top %}
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
         <h1 class="display-4">Sortie {{ sortie.nom }}</h1>
 

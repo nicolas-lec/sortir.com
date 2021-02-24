@@ -115,6 +115,8 @@ class SortieController extends AbstractController
         //Envoi vers la base de données
         $entityManager ->flush();
 
-        return new Response('Insertion réussie!');
+        // Ajout d'un message de confirmation
+        $this->addFlash('success', 'Vous êtes inscrit à la sortie !');
+        return $this->render('sortie/detailSortie.html.twig', ['sortie'=>$sortie]);
     }
 }
