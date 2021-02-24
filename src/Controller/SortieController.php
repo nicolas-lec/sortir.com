@@ -100,15 +100,25 @@ class SortieController extends AbstractController
         //Récupération  des entités
         $participant = $this->getUser();
 
-        //Liaison entre sortie et participant
-        $sortie -> addIdparticipant($participant);
 
-        $entityManager -> persist($sortie);
-        //Envoi vers la base de données
-        $entityManager ->flush();
 
-        // Ajout d'un message de confirmation
-        $this->addFlash('success', 'Vous êtes inscrit à la sortie !');
+        if ($sortie->getEtat()->getId()===1) {
+
+            //Liaison entre sortie et participant
+            $sortie -> addIdparticipant($participant);
+
+            $entityManager -> persist($sortie);
+            //Envoi vers la base de données
+            $entityManager ->flush();
+
+            // Ajout d'un message de confirmation
+            $this->addFlash('success', 'Vous êtes inscrit à la sortie !');
+        }
+        else {
+            // Ajout d'un message de confirmation
+            $this->addFlash('warning', 'Vous ne pouvez pas vous inscrire à la sortie !');
+        }
+
         return $this->render('sortie/detailSortie.html.twig', ['sortie'=>$sortie]);
     }
 
