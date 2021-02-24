@@ -7,6 +7,7 @@ use App\Form\ParticipantType;
 use App\Form\UpdateParticipantType;
 use App\Security\LoginAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,7 @@ class ParticipantController extends AbstractController
 {
     /**
      * @Route(path="inscription", name="inscription", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="L'accès est réservé au administrateur")
      */
     public function inscription(EntityManagerInterface $entityManager, Request $request, LoginAuthenticator $login, GuardAuthenticatorHandler $guard, UserPasswordEncoderInterface $passwordEncoder): Response
     {
@@ -50,6 +52,7 @@ class ParticipantController extends AbstractController
 
     /**
      * @Route("profil", name="profil")
+     * @IsGranted("ROLE_USER", statusCode=404, message="L'accès est réservé au personne inscrite")
      */
     public function profil()
     {
@@ -64,6 +67,7 @@ class ParticipantController extends AbstractController
      * @param EntityManagerInterface $emi
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return RedirectResponse|Response
+     * @IsGranted("ROLE_USER", statusCode=404, message="L'accès est réservé au personne inscrite")
      */
 
     public function update(Request $request, EntityManagerInterface $emi, UserPasswordEncoderInterface $passwordEncoder)

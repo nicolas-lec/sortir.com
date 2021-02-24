@@ -8,6 +8,7 @@ use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,7 @@ class SortieController extends AbstractController
 {
     /**
      * @Route("/sortie", name="sortie")
+     * @IsGranted("ROLE_USER", statusCode=404, message="L'accès est réservé au personne inscrite")
      */
     public function index(): Response
     {
@@ -32,6 +34,7 @@ class SortieController extends AbstractController
 
     /**
      * @Route(name="creationSortie", path="creation-sortie", methods={"GET","POST"})
+     * @IsGranted("ROLE_USER", statusCode=404, message="L'accès est réservé au personne inscrite")
      */
     public function createSortie(Request $request, EntityManagerInterface $entityManager)
     {
@@ -65,6 +68,7 @@ class SortieController extends AbstractController
 
     /**
      * @Route(name="sortie", path="", methods={"GET", "POST"})
+     * @IsGranted("ROLE_USER", statusCode=404, message="L'accès est réservé au personne inscrite")
      */
     public function sortie(Request $request, EntityManagerInterface $entityManager)
     {
@@ -88,6 +92,7 @@ class SortieController extends AbstractController
 
     /**
      * @Route(name="detailSortie", methods={"GET","POST"}, path="detail/{id}", requirements={"id": "\d+"})
+     * @IsGranted("ROLE_USER", statusCode=404, message="L'accès est réservé au personne inscrite")
      */
     public function detailSortie($id, SortieRepository $repository)
     {
@@ -99,6 +104,7 @@ class SortieController extends AbstractController
 
     /**
      * @Route(name="inscriptionSortie",path="inscriptionSortie/{id}" ,methods={"POST","GET"})
+     * @IsGranted("ROLE_USER", statusCode=404, message="L'accès est réservé au personne inscrite")
      */
     public function inscriptionSortie(Sortie $sortie, EntityManagerInterface $entityManager)
     {
@@ -129,6 +135,7 @@ class SortieController extends AbstractController
 
     /**
      * @Route(name="desinscriptionSortie",path="desinscriptionSortie/{id}" ,methods={"POST","GET"})
+     * @IsGranted("ROLE_USER", statusCode=404, message="L'accès est réservé au personne inscrite")
      */
     public function desinscriptionSortie (Sortie $sortie, EntityManagerInterface $entityManager)
     {
