@@ -18,8 +18,11 @@
         <p class="lead" style="margin-top: 50px;">Date Limite d'inscription: {{ sortie.dateLimiteInscription |date("m/d/Y") }}</p>
         <p class="lead" style="margin-top: 50px;">Nombre maximum d'inscrit: {{ sortie.nbInscriptionsMax }}</p>
         <p class="lead" style="margin-top: 50px;">Description de la sortie: {{ sortie.infoSortie }}</p>
+        <p class="lead" style="margin-top: 50px;">Nombre Participant : {{ sortie.iddparticipant| length }}/ {{ sortie.nbInscriptionsMax }}</p>
     </div>
+    {% if(sortie.iddparticipant| length < sortie.nbInscriptionsMax ) %}
     <a class="btn btn-lg btn-primary" href="{{ path('sortie_inscriptionSortie', {"id": sortie.id }) }}">S'inscrire</a>
+    {% endif %}
     <a class="btn btn-lg btn-primary" href="{{ path('sortie_desinscriptionSortie', {"id": sortie.id }) }}">Se désinscrire</a>
 
 

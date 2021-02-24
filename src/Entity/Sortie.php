@@ -37,7 +37,7 @@ class Sortie
     private $duree;
 
     /**
-     * @Assert\GreaterThan($dateHeureDebut)
+     * @Assert\GreaterThan(propertyPath="dateHeureDebut")
      * @ORM\Column(type="datetime")
      *
      */
