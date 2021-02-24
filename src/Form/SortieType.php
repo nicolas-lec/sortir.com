@@ -28,7 +28,7 @@ class SortieType extends AbstractType
             'trim' => true,
             'required' => true,
             'constraints' => [
-                new
+
             ]
 
         ]);
