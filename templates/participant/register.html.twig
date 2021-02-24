@@ -18,8 +18,56 @@
         {% endfor %}
     {% endfor %}
 
+    {{ form_start(participantForm) }}
 
-    {{ form(participantForm) }}
+    <div class="container">
+
+        <div class="form-group" >
+            {{ form_label((participantForm.pseudo)) }}
+            {{ form_widget(participantForm.pseudo, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label((participantForm.roles)) }}
+            {{ form_widget(participantForm.roles, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label((participantForm.password)) }}
+            {{ form_widget(participantForm.password, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label((participantForm.nom)) }}
+            {{ form_widget(participantForm.nom, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label((participantForm.prenom)) }}
+            {{ form_widget(participantForm.prenom, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label((participantForm.telephone)) }}
+            {{ form_widget(participantForm.telephone, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label((participantForm.mail)) }}
+            {{ form_widget(participantForm.mail, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label((participantForm.actif)) }}
+            {{ form_widget(participantForm.actif, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_widget(participantForm.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+        </div>
+
+
+    </div>
+
+    {{ form_end(participantForm) }}
 
 {% endblock %}
 
