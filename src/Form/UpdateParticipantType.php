@@ -10,6 +10,11 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
+
 
 class UpdateParticipantType extends AbstractType
 {
@@ -26,13 +31,18 @@ class UpdateParticipantType extends AbstractType
                 'type' => PasswordType::class,
                 'mapped' => false,
                 'required' => false,
-
+                'constraints' => [
+                    new Length(['min' => 8]),
+                    new Regex(['pattern' =>'/^(?=.*\d)(?=.*[A-Z])(?=.*[@#$%])(?!.*(.)\1{2}).*[a-z]/m',
+                        'match' =>true,
+                        'message' => "Votre mot de passe doit comporter au moins huit caractères, dont des lettres majuscules et minuscules, un chiffre et un symbole."
+                    ])
+                ],
                 'first_options' => [
                     'label' => 'Nouveau mot de passe :',
                     'attr' => [
                         'maxlength' => 50
                     ]
-
                 ],
                 'second_options' => [
                     'label' => 'Confirmation :',
