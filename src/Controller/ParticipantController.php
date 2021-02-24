@@ -49,7 +49,7 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("/profil", name="profil")
+     * @Route("profil", name="profil")
      */
     public function profil()
     {

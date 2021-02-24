@@ -84,13 +84,9 @@ class SortieController extends AbstractController
     /**
      * @Route(name="detailSortie", methods={"GET","POST"}, path="detail/{id}", requirements={"id": "\d+"})
      */
-    public function detailSortie($id,
-                                SortieRepository $repository)
+    public function detailSortie($id, SortieRepository $repository)
     {
-
-
         $sortie =$repository->find($id);
-
 
         return $this->render('sortie/detailSortie.html.twig', ['sortie'=>$sortie]);
     }
@@ -112,6 +108,26 @@ class SortieController extends AbstractController
         $entityManager ->flush();
 
         return new Response('Insertion réussie!');
+    }
+
+    /**
+     * @Route(name="desinscriptionSortie",path="desinscriptionSortie/{id}" ,methods={"POST","GET"})
+     */
+    public function desinscriptionSortie (Sortie $sortie, EntityManagerInterface $entityManager)
+    {
+        $participant = $this->getUser();
+
+        $sortie -> removeIdparticipant($participant);
+
+        $entityManager -> persist($sortie);
+
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Vous vous êtes désinscrit avec succès !');
+
+        return $this->render('sortie/detailSortie.html.twig', ['sortie'=>$sortie]);
+
+
     }
 
 
