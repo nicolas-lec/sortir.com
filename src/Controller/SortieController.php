@@ -127,7 +127,7 @@ class SortieController extends AbstractController
         $participant = $this->getUser();
 
 
-        if ($sortie->getEtat() === 5) {
+        if ($sortie->getEtat()->getLibelle() === 4) {
 
             //Suppression du participant dans la sortie
             $sortie->removeIdparticipant($participant);
@@ -138,7 +138,7 @@ class SortieController extends AbstractController
 
             $this->addFlash('success', 'Vous vous êtes désinscrit avec succès !');
         }
-        elseif ($sortie->getEtat() === 4){
+        else {
 
             $this->addFlash('warning', 'Non ! ');
         }
