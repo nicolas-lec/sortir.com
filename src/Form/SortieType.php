@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Sortie;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -21,7 +22,7 @@ class SortieType extends AbstractType
             'required' => true,
         ]);
 
-        $builder->add('dateHeureDebut', DateType::class, [
+        $builder->add('dateHeureDebut', DateTimeType::class, [
             'label' => 'Heure de début :',
             'trim' => true,
             'required' => true,
