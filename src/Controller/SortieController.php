@@ -112,7 +112,7 @@ class SortieController extends AbstractController
         $participant = $this->getUser();
 
 
-        if($sortie->getDateLimiteInscription() > $sortie-> getDateHeureDebut()){
+
 
 
         if ($sortie->getEtat()->getId()===1) {
@@ -131,9 +131,7 @@ class SortieController extends AbstractController
             // Ajout d'un message de confirmation
             $this->addFlash('warning', 'Vous ne pouvez pas vous inscrire à la sortie !');
         }
-        }else{
-            $this -> addFlash('warning','Vous ne pouvez pas vous inscrire à la sortie !');
-        }
+
 
         return $this->render('sortie/detailSortie.html.twig', ['sortie'=>$sortie]);
     }
