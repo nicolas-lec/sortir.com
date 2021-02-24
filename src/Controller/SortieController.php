@@ -129,7 +129,6 @@ class SortieController extends AbstractController
 
     /**
      * @Route(name="desinscriptionSortie",path="desinscriptionSortie/{id}" ,methods={"POST","GET"})
-     * @ParamConverter("post", options={"id" = "post_id"})
      */
     public function desinscriptionSortie (Sortie $sortie, EntityManagerInterface $entityManager)
     {
