@@ -185,12 +185,16 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route(name="editSortie",path="editSortie/{id}" ,methods={"POST","GET"})
-     * @IsGranted("ROLE_USER", statusCode=404, message="L'accès est réservé au personne inscrite")
+     * @Route(name="deleteSortie", path="deleteSortie/{id}",  methods={"POST","GET"})
      */
-    public function editSortie (Sortie $sortie, EntityManagerInterface $entityManager)
+    public function deleteSortie (Request $request, EntityManagerInterface $entityManager)
     {
+       $id = $request->get('id');
+       $sortie = $entityManager->getRepository('App:Sortie')->findOneBy(['id'=>$id]);
+       $entityManager ->remove($sortie);
+       $entityManager->flush();
 
+    return $this->redirectToRoute('home_home');
     }
 
 
