@@ -37,7 +37,7 @@ class Sortie
     private $duree;
 
     /**
-     * @Assert\GreaterThan(propertyPath="dateHeureDebut", message="La date d'inscription doit être supérieur a la date de début de sortie !")
+     * @Assert\LessThanOrEqual(propertyPath="dateHeureDebut", message="La date limite d'inscription doit être inférieur a la date de début de sortie !")
      * @ORM\Column(type="datetime")
      *
      */

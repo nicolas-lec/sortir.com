@@ -1,9 +1,155 @@
 {% extends 'base.html.twig' %}
 
+
 {% block title %}Bienvenue sur sortir.com {% endblock %}
+
+
 
 {% block body %}
 
+    <div class="container ">
+        <div class="row justify-content-end">
+            <p>Date du jour :&ensp;</p>
+
+            {{ 'now' | date('d/m/Y') }}
+
+        </div>
+        <div class="row justify-content-end">
+            <p>Participant:&ensp;</p>
+        </div>
+    </div>
+
     <h1>Bienvenue sur sortir.com</h1>
+
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    {#    menu déroulant#}
+                    <div>
+                        <div>
+                            <h5>Filtrer les sorties :</h5>
+                        </div>
+                        <label for="sites">Sites:</label>
+                        <select name="my_html_select_box" >
+                            <option>SAINT-HERBLAIN </option>
+                            <option>NANTES</option>
+                            <option>PARIS</option>
+                        </select>
+                    </div>
+
+                    {#barre de recherche#}
+                    <div class="input-group rounded">
+                        <label for="search">Le nom de la sortie contient :</label>
+
+                        <input type="search" class="form-control rounded" placeholder="Search"  aria-label="Search"
+                               aria-describedby="search-addon"  />
+                        <include class="icone-loupe"></include>
+                    </div>
+                    </br>
+                    <form>
+                        <div class="row">
+                            <label for="DebutSortie">&emsp;Entre :&ensp;</label>
+                            <input type="date" id="DSortie" name="DebSortie">
+                            <label for="finSortie">&ensp;Et :&ensp;</label>
+                            <input type="date" id="SSortie" name="finSorie">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-sm-5">
+
+                    {#boutton chekbox#}
+                    <div>
+                        <div>
+                            <input type="checkbox" id="orga" name="orga">
+                            <label for="orga">Sorties dont je suis l'organisateur/trice</label>
+                        </div>
+
+                        <div>
+                            <input type="checkbox" id="orga" name="orga">
+                            <label for="orga">Sorties auquelles je me suis inscrit/e</label>
+                        </div>
+
+                        <div>
+                            <input type="checkbox" id="orga" name="orga">
+                            <label for="orga">Sorties auquelles je ne suis pas inscrit/e</label>
+                        </div>
+
+                        <div>
+                            <input type="checkbox" id="orga" name="orga">
+                            <label for="orga">Sorties passées :</label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-1">
+                    <div>
+                        <button type="button" class="btn- btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                            </svg>
+                            Rechercher
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row col-xl-col-12 mt-4">
+            <table>
+                <style>
+                    table, th, td {
+                        padding: 10px;
+                        border: 1px solid black;
+                        border-collapse: collapse;
+                    }
+                </style>
+                <thead>
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Date de la sortie</th>
+                    <th scope="col">Clôture</th>
+                    <th scope="col">Inscrits/places</th>
+                    <th scope="col">Etat</th>
+                    <th scope="col">Inscrit</th>
+                    <th scope="col">Organisateur</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for sortie in sorties %}
+                <tr>
+                    <td>{{ sortie.nom }}</td>
+                    <td>{{ sortie.dateheuredebut|date("m/d/Y") }}</td>
+                    <td>{{ sortie.dateLimiteInscription|date("m/d/Y") }}</td>
+                    <td>{{ sortie.nbInscriptionsMax}}</td>
+
+                    <td>{% if sortie.etat == true %}
+                            <p>X</p>
+                        {% else %}
+                            <p>---</p>
+                        {% endif %}</td>
+
+                    <td>{#{{ sortie.id }}#}/{{ sortie.nbInscriptionsMax}}</td>
+                    <td></td>
+                    <td><a href="{{ url('sortie_detailSortie', {'id': sortie.id}) }}">Afficher</a></td>
+                <tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <button type="button" class="btn- btn-primary mt-3">
+                Creer une sortie
+            </button>
+        </div>
+    </div>
 
 {% endblock %}
