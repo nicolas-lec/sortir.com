@@ -29,8 +29,8 @@
     {% endif %}
 
 
-    {% if (app.user in sortie.organisateur) %}
-    <a class="btn btn-lg btn-primary" href="{{ path('sortie_desinscriptionSortie', {"id": sortie.id }) }}">Annuler</a>
+    {% if (app.user == sortie.organisateur) %}
+    <a class="btn btn-lg btn-primary" href="{{ path('sortie_deleteSortie', {"id": sortie.id }) }}">Annuler</a>
     {% endif %}
 
 
