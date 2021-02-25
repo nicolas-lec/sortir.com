@@ -46,6 +46,10 @@ class UserFixtures extends Fixture
         $etat3->setLibelle('Annulé');
         $manager->persist($etat3);
 
+        $etat4= new Etat();
+        $etat4->setLibelle('Archivé');
+        $manager->persist($etat4);
+
         $participant1 = new Participant();
         $participant1->setPseudo('vdsvsdvsdv');
         $participant1->setMail('participvdsvsdvsvsdvsant@mail.fr');

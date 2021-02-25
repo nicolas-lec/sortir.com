@@ -52,6 +52,11 @@ class SortieController extends AbstractController
 
         // Vérification de la soumission du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
+            $participant = $this->getUser();
+            $sortie->setOrganisateur($participant);
+            $enr = $request->request->get('enregistrer');
+
+
 
             $etat = $entityManager->getRepository('App:Etat')->findOneBy(['id'=>1]);
             $sortie->setEtat($etat);
@@ -113,10 +118,6 @@ class SortieController extends AbstractController
     {
         //Récupération  des entités
         $participant = $this->getUser();
-
-
-
-
 
         if ($sortie->getEtat()->getId()===1) {
 

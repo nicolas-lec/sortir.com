@@ -52,12 +52,16 @@
             {{ form_label((formSortie.infoSortie)) }}
             {{ form_widget(formSortie.infoSortie, {'attr': {'class': 'form-control'}}) }}
         </div>
-
+{#
         <div class="form-group">
             {{ form_widget(formSortie.submit, {'attr': {'class': 'btn btn-primary'}}) }}
         </div>
+#}
 
-
+        <div>
+            <button class="btn btn-primary" type="submit" name="envoyer" value="enregistrer">Enregistrer</button>
+            <button class="btn btn-primary" type="submit" name="envoyer" value="publier">Publier</button>
+        </div>
     </div>
 
     {{ form_end(formSortie) }}

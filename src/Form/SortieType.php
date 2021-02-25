@@ -52,10 +52,10 @@ class SortieType extends AbstractType
             'trim' => true,
             'required' => true,
         ]);
-
-        $builder->add('submit', SubmitType::class, [
-            'label' => 'Envoyer',
-        ]);
+//
+//        $builder->add('submit', SubmitType::class, [
+//            'label' => 'Envoyer',
+//        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
