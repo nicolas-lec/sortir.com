@@ -164,5 +164,14 @@ class SortieController extends AbstractController
 
     }
 
+    /**
+     * @Route(name="editSortie",path="editSortie/{id}" ,methods={"POST","GET"})
+     * @IsGranted("ROLE_USER", statusCode=404, message="L'accès est réservé au personne inscrite")
+     */
+    public function editSortie (Sortie $sortie, EntityManagerInterface $entityManager)
+    {
+
+    }
+
 
 }
