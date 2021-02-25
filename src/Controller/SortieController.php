@@ -42,6 +42,7 @@ class SortieController extends AbstractController
         $sortie = new Sortie();
 
         $sortie->setDateHeureDebut(new \DateTime('now')) ;
+        $sortie->setDateLimiteInscription(new \DateTime('now')) ;
 
         // Création du formulaire
         $form = $this->createForm(SortieType::class, $sortie);
