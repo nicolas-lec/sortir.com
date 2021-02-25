@@ -11,18 +11,3 @@ import './styles/app.css';
 // start the Stimulus application
 import './bootstrap';
 
-
-
-let aujourdhui = Date.now()
-let dateSortie = new Date(2018, 8, 22, 15, 0, 0)
-
-
-if (dateSortie < aujourdhui)
-{
-    alert("La date doit être supérieur");
-}
-else
-{
-    alert("La date est ok");
-}
-

@@ -23,8 +23,8 @@ class UserFixtures extends Fixture
         // $manager->persist($product);
         for($i=0; $i<20; $i++) {
             $participant = new Participant();
-            $participant->setPseudo('participant'.$i);
-            $participant->setMail('participant@mail.fr');
+            $participant->setPseudo('participant1'.$i);
+            $participant->setMail('participant1@mail.fr');
             $participant->setNom('Dupont'.$i);
             $participant->setPrenom('Gille'.$i);
             $participant->setTelephone('0647858095');
@@ -45,6 +45,18 @@ class UserFixtures extends Fixture
         $etat3= new Etat();
         $etat3->setLibelle('Annulé');
         $manager->persist($etat3);
+
+        $participant1 = new Participant();
+        $participant1->setPseudo('vdsvsdvsdv');
+        $participant1->setMail('participvdsvsdvsvsdvsant@mail.fr');
+        $participant1->setNom('Dupvdssdvsdsvsont');
+        $participant1->setPrenom('vssdsdvsd');
+        $participant1->setTelephone('0647858095');
+        $participant1->setActif(1);
+        $participant1->setRoles(["ROLE_ADMIN"]);
+        $password=$this->encoder->encodePassword($participant1,'lolipop');
+        $participant1->setPassword($password);
+        $manager->persist($participant1);
         // $product = new Product();
         // $manager->persist($product);
         for($i=0; $i<20; $i++) {
@@ -56,6 +68,7 @@ class UserFixtures extends Fixture
             $sortie ->setNbInscriptionsMax(10+$i);
             $sortie->setInfoSortie('Sortie ENI n°'.$i);
             $sortie->setEtat($etat1);
+            $sortie->setOrganisateur($participant1);
             $manager->persist($sortie);
         }
 
@@ -68,6 +81,7 @@ class UserFixtures extends Fixture
             $sortie ->setNbInscriptionsMax(10+$i);
             $sortie->setInfoSortie('Sortie ENI n°'.$i);
             $sortie->setEtat($etat2);
+            $sortie->setOrganisateur($participant1);
             $manager->persist($sortie);
         }
 

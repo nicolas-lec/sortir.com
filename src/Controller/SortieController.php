@@ -53,6 +53,8 @@ class SortieController extends AbstractController
         // Vérification de la soumission du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $etat = $entityManager->getRepository('App:Etat')->findOneBy(['id'=>1]);
+            $sortie->setEtat($etat);
             // Insertion de l'objet en BDD
             $entityManager->persist($sortie);
 
