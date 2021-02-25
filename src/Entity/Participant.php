@@ -70,9 +70,15 @@ class Participant implements UserInterface
      */
     private $sortie;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur")
+     */
+    private $organisateur;
+
     public function __construct()
     {
         $this->sortie = new ArrayCollection();
+        $this->organisateur = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -252,6 +258,36 @@ class Participant implements UserInterface
     public function removeSortie(Sortie $sortie): self
     {
         $this->sortie->removeElement($sortie);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sortie[]
+     */
+    public function getOrganisateur(): Collection
+    {
+        return $this->organisateur;
+    }
+
+    public function addOrganisateur(Sortie $organisateur): self
+    {
+        if (!$this->organisateur->contains($organisateur)) {
+            $this->organisateur[] = $organisateur;
+            $organisateur->setOrganisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrganisateur(Sortie $organisateur): self
+    {
+        if ($this->organisateur->removeElement($organisateur)) {
+            // set the owning side to null (unless already changed)
+            if ($organisateur->getOrganisateur() === $this) {
+                $organisateur->setOrganisateur(null);
+            }
+        }
 
         return $this;
     }

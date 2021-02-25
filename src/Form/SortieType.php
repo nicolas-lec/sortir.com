@@ -35,7 +35,7 @@ class SortieType extends AbstractType
             'required' => true,
         ]);
 
-        $builder ->add('dateLimiteInscription', DateType::class, [
+        $builder ->add('dateLimiteInscription', DateTimeType::class, [
             'label' => 'Date limite d\'inscription :',
             'trim' => true,
             'required' => true,
