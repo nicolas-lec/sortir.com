@@ -54,12 +54,25 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $participant = $this->getUser();
             $sortie->setOrganisateur($participant);
-            $enr = $request->request->get('enregistrer');
 
 
+            //L'objet request permet de récupérer la value bouton provenant du twig
+            $env = $request->request->get('envoyer');
+            //dd($env);
+            //Conditiobn permettant d'enregistrer la sortie sous différents états
+            if ($env === "publier") {
+                //Envoi de l'état de la sortie publiée
+                $etat = $entityManager->getRepository('App:Etat')->findOneBy(['id'=>1]);
+                $sortie->setEtat($etat);
 
-            $etat = $entityManager->getRepository('App:Etat')->findOneBy(['id'=>1]);
-            $sortie->setEtat($etat);
+            }
+            elseif ($env ==="enregister") {
+                //Envoi de l'état de la sortie enregistrée
+                $etat = $entityManager->getRepository('App:Etat')->findOneBy(['id'=>2]);
+                $sortie->setEtat($etat);
+
+            }
+
             // Insertion de l'objet en BDD
             $entityManager->persist($sortie);
 
