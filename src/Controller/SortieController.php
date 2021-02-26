@@ -211,6 +211,7 @@ class SortieController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $em
      * @return RedirectResponse|Response
+     * @IsGranted("ROLE_USER", statusCode=404, message="L'accès est réservé a l'organisateur")
      */
     public function updateSortie ($id, Request $request, EntityManagerInterface $em)
     {
@@ -237,5 +238,6 @@ class SortieController extends AbstractController
 
 
     }
+
 
 }
