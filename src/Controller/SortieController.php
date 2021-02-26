@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -200,5 +201,38 @@ class SortieController extends AbstractController
     return $this->redirectToRoute('home_home');
     }
 
+    /**
+     * Modifier une sortie
+     * @Route("detail/{id}/edit", name="edit", methods={"POST","GET"})
+     * @param $id
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse|Response
+     */
+    public function updateSortie ($id, Request $request, EntityManagerInterface $em)
+    {
+        $sortie = $em->getRepository(Sortie::class)->find($id);
+        $formSortie = $this->createForm('App\Form\UpdateSortieType',$sortie);
+        $formSortie->handleRequest($request);
+        if($formSortie->isSubmitted() && $formSortie->isValid())
+        {
+            $user=$this->getUser();
+            if($user == null || $user->getId() != $sortie->getOrganisateur()->getId()){
+                return $this->redirectToRoute("home_home");
+            }
+            $em->persist($sortie);
+            $em->flush();
+            $this->addFlash('success', "La sortie a été modifié");
+
+            return $this->redirectToRoute("sortie_detailSortie",
+                ['id' => $sortie->getId()]);
+        }
+        return $this->render("sortie/edit.html.twig", [
+            'formSortie' => $formSortie->createView(),
+            'sortie' => $sortie
+        ]);
+
+
+    }
 
 }
