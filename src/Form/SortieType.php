@@ -27,18 +27,23 @@ class SortieType extends AbstractType
             'label' => 'Heure de début :',
             'trim' => true,
             'required' => true,
+            'date_widget' => 'single_text',
+            'time_widget' => 'single_text'
         ]);
 
         $builder ->add('duree', IntegerType::class, [
             'label' => 'Durée de la sortie :',
             'trim' => true,
             'required' => true,
+            ''
         ]);
 
         $builder ->add('dateLimiteInscription', DateTimeType::class, [
             'label' => 'Date limite d\'inscription :',
             'trim' => true,
             'required' => true,
+            'date_widget' => 'single_text',
+            'time_widget' => 'single_text'
         ]);
 
         $builder ->add('nbInscriptionsMax', IntegerType::class, [
