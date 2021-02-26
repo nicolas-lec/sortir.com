@@ -20,7 +20,7 @@
         <p class="lead" style="margin-top: 50px;">Description de la sortie: {{ sortie.infoSortie }}</p>
         <p class="lead" style="margin-top: 50px;">Nombre Participant : {{ sortie.iddparticipant| length }}/ {{ sortie.nbInscriptionsMax }}</p>
     </div>
-    {% if(sortie.iddparticipant| length < sortie.nbInscriptionsMax) and app.user not in sortie.iddparticipant %}
+    {% if(sortie.iddparticipant| length < sortie.nbInscriptionsMax) and app.user not in sortie.iddparticipant and sortie.dateLimiteInscription  > date() %}
 
     <a class="btn btn-lg btn-primary" href="{{ path('sortie_inscriptionSortie', {"id": sortie.id }) }}">S'inscrire</a>
     {% endif %}
