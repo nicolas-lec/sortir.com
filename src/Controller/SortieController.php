@@ -195,10 +195,13 @@ class SortieController extends AbstractController
     {
        $id = $request->get('id');
        $sortie = $entityManager->getRepository('App:Sortie')->findOneBy(['id'=>$id]);
-       $entityManager ->remove($sortie);
+       $etat = $entityManager->getRepository('App:Etat')->findOneBy(['id'=>4]);
+       $sortie->setEtat($etat);
+
        $entityManager->flush();
 
-    return $this->redirectToRoute('home_home');
+
+        return $this->redirectToRoute('home_home');
     }
 
     /**
