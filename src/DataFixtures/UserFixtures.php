@@ -23,14 +23,14 @@ class UserFixtures extends Fixture
         // $manager->persist($product);
         for($i=0; $i<20; $i++) {
             $participant = new Participant();
-            $participant->setPseudo('participant1'.$i);
-            $participant->setMail('participant1@mail.fr');
+            $participant->setPseudo('user1'.$i);
+            $participant->setMail('user1@mail.fr');
             $participant->setNom('Dupont'.$i);
             $participant->setPrenom('Gille'.$i);
             $participant->setTelephone('0647858095');
             $participant->setActif(1);
             $participant->setRoles(["ROLE_ADMIN"]);
-            $password=$this->encoder->encodePassword($participant,'Pa$$w0rd');
+            $password=$this->encoder->encodePassword($participant,' ');
             $participant->setPassword($password);
             $manager->persist($participant);
         }
@@ -51,14 +51,14 @@ class UserFixtures extends Fixture
         $manager->persist($etat4);
 
         $participant1 = new Participant();
-        $participant1->setPseudo('vdsvsdvsdv');
-        $participant1->setMail('participvdsvsdvsvsdvsant@mail.fr');
-        $participant1->setNom('Dupvdssdvsdsvsont');
-        $participant1->setPrenom('vssdsdvsd');
+        $participant1->setPseudo('participant');
+        $participant1->setMail('participant@mail.fr');
+        $participant1->setNom('nom');
+        $participant1->setPrenom('prenom');
         $participant1->setTelephone('0647858095');
         $participant1->setActif(1);
         $participant1->setRoles(["ROLE_ADMIN"]);
-        $password=$this->encoder->encodePassword($participant1,'lolipop');
+        $password=$this->encoder->encodePassword($participant1,' ');
         $participant1->setPassword($password);
         $manager->persist($participant1);
         // $product = new Product();
@@ -66,9 +66,9 @@ class UserFixtures extends Fixture
         for($i=0; $i<20; $i++) {
             $sortie = new Sortie();
             $sortie ->setNom('Sortie '.$i);
-            $sortie ->setDateHeureDebut(\DateTime::createFromFormat('Y-m-d H:i:s', '2021-02-24 19:30:00'));
+            $sortie ->setDateHeureDebut(\DateTime::createFromFormat('Y-m-d H:i:s', '2021-05-30 19:30:00'));
             $sortie ->setDuree(60+$i);
-            $sortie ->setDateLimiteInscription(\DateTime::createFromFormat('Y-m-d H:i:s', '2021-02-28 19:30:00'));
+            $sortie ->setDateLimiteInscription(\DateTime::createFromFormat('Y-m-d H:i:s', '2021-05-29 19:30:00'));
             $sortie ->setNbInscriptionsMax(10+$i);
             $sortie->setInfoSortie('Sortie ENI n°'.$i);
             $sortie->setEtat($etat1);
@@ -79,9 +79,9 @@ class UserFixtures extends Fixture
         for($i=0; $i<20; $i++) {
             $sortie = new Sortie();
             $sortie ->setNom('Sortie '.$i);
-            $sortie ->setDateHeureDebut(\DateTime::createFromFormat('Y-m-d H:i:s', '2021-02-24 19:30:00'));
+            $sortie ->setDateHeureDebut(\DateTime::createFromFormat('Y-m-d H:i:s', '2021-04-30 19:30:00'));
             $sortie ->setDuree(60+$i);
-            $sortie ->setDateLimiteInscription(\DateTime::createFromFormat('Y-m-d H:i:s', '2021-02-28 19:30:00'));
+            $sortie ->setDateLimiteInscription(\DateTime::createFromFormat('Y-m-d H:i:s', '2021-04-29 19:30:00'));
             $sortie ->setNbInscriptionsMax(10+$i);
             $sortie->setInfoSortie('Sortie ENI n°'.$i);
             $sortie->setEtat($etat2);
