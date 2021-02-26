@@ -17,10 +17,6 @@ class Lieu
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $idLieu;
 
     /**
      * @ORM\Column(type="string", length=150)
@@ -41,6 +37,12 @@ class Lieu
      * @ORM\Column(type="float")
      */
     private $longitude;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieus")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $ville;
 
     public function getId(): ?int
     {
@@ -103,6 +105,18 @@ class Lieu
     public function setLongitude(float $longitude): self
     {
         $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getVille(): ?Ville
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?Ville $ville): self
+    {
+        $this->ville = $ville;
 
         return $this;
     }

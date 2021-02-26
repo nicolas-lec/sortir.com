@@ -75,6 +75,12 @@ class Participant implements UserInterface
      */
     private $organisateur;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Site::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $Site;
+
     public function __construct()
     {
         $this->sortie = new ArrayCollection();
@@ -288,6 +294,18 @@ class Participant implements UserInterface
                 $organisateur->setOrganisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->Site;
+    }
+
+    public function setSite(?Site $Site): self
+    {
+        $this->Site = $Site;
 
         return $this;
     }

@@ -69,6 +69,18 @@ class Sortie
      */
     private $organisateur;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $site;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Lieu::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $lieu;
+
     public function __construct()
     {
         $this->idparticipant = new ArrayCollection();
@@ -154,7 +166,7 @@ class Sortie
     /**
      * @return Collection|Participant[]
      */
-    public function getIddparticipant(): Collection
+    public function getIdparticipant(): Collection
     {
         return $this->idparticipant;
     }
@@ -198,6 +210,30 @@ class Sortie
     public function setOrganisateur(?Participant $organisateur): self
     {
         $this->organisateur = $organisateur;
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?Lieu $lieu): self
+    {
+        $this->lieu = $lieu;
 
         return $this;
     }
