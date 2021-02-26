@@ -135,7 +135,7 @@ class SortieController extends AbstractController
         //Récupération  des entités
         $participant = $this->getUser();
 
-        if ($sortie->getEtat()->getId()===1) {
+        if ($sortie->getEtat()->getId()===1 && $sortie ->getDateLimiteInscription() > new \DateTime('now')) {
 
             //Liaison entre sortie et participant
             $sortie -> addIdparticipant($participant);

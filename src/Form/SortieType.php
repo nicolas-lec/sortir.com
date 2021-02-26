@@ -35,7 +35,6 @@ class SortieType extends AbstractType
             'label' => 'Durée de la sortie :',
             'trim' => true,
             'required' => true,
-            ''
         ]);
 
         $builder ->add('dateLimiteInscription', DateTimeType::class, [
