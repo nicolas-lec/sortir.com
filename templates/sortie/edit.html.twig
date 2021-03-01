@@ -54,10 +54,10 @@
         <div class="form-group">
                 {{ form_row(formSortie.lieu,  {'attr': {'class': 'form-control'}}) }}
         </div>
-        <div class="form-group">
-            {{ form_row(formSortie.site,  {'attr': {'class': 'form-control'}}) }}
-        </div>
 
+        <div>
+            <a class="btn btn-light" href="{{ url('sortie_detailSortie', {'id': sortie.id}) }}">Annuler</a>
+        </div>
 
 
     </div>

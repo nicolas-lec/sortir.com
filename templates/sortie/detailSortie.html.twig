@@ -19,6 +19,7 @@
         <p class="lead" style="margin-top: 50px;">Nombre maximum d'inscrit: {{ sortie.nbInscriptionsMax }}</p>
         <p class="lead" style="margin-top: 50px;">Description de la sortie: {{ sortie.infoSortie }}</p>
         <p class="lead" style="margin-top: 50px;">Nombre Participant : {{ sortie.idparticipant| length }}/ {{ sortie.nbInscriptionsMax }}</p>
+        <p class="lead" style="margin-top: 50px;">Lieu : {{ sortie.lieu.nom }}</p>
     </div>
     {% if(sortie.idparticipant| length < sortie.nbInscriptionsMax) and app.user not in sortie.idparticipant and sortie.dateLimiteInscription  > date() %}
 
@@ -34,7 +35,7 @@
         <a  class="btn btn-lg btn-primary" href="{{ path('sortie_edit', {"id": sortie.id }) }}">Modifier</a>
     {% endif %}
     <div class="text-center">
-        <h1 class="lead display-4">Liste de partitipants</h1>
+        <h1 class="lead display-4">Liste des participants</h1>
     </div>
 
     <div class="row">
