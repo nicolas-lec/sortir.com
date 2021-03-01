@@ -3,7 +3,11 @@
 namespace App\Form;
 
 
+use App\Entity\Lieu;
+use App\Entity\Site;
 use App\Entity\Sortie;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -65,6 +69,15 @@ class UpdateSortieType extends AbstractType
                     'maxlength' => 255
                 ]
             ])
+
+            ->add('lieu',EntityType::class, [
+                'class' => Lieu::class,
+                'choice_label' => 'nom',
+                'query_builder' => function(EntityRepository $repository) {
+                    return $repository->createQueryBuilder('lieu')->orderBy('lieu.nom', 'ASC');
+                }
+            ])
+
             ->add('modifier', SubmitType::class, ['label' => 'Modifier'])
         ;
     }
