@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Entity\Site;
 use App\Form\ParticipantType;
+use App\Form\RegisterType;
 use App\Form\UpdateParticipantType;
+use App\Repository\ParticipantRepository;
 use App\Security\LoginAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -25,24 +28,30 @@ class ParticipantController extends AbstractController
      * @Route(path="inscription", name="inscription", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN", statusCode=404, message="L'accès est réservé au administrateur")
      */
-    public function inscription(EntityManagerInterface $entityManager, Request $request, LoginAuthenticator $login, GuardAuthenticatorHandler $guard, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function inscription(EntityManagerInterface $entityManager,
+                                Request $request,
+                                UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $participant = new Participant();
-        $form = $this->createForm(ParticipantType::class);
+        $form = $this->createForm(ParticipantType::class, $participant);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($participant);
-            $entityManager->flush();
+
+            $admin = $form->get('admin')->getData();
+            if ($admin==true)
+                $participant->setRoles(['ROLE_ADMIN']);
+            else
+                $participant->setRoles(['ROLE_USER']);
 
             $participant->setPassword($passwordEncoder->encodePassword($participant, $participant->getPlainPassword()));
-
-            $participant->setRoles(['ROLE_ADMIN']);
+            $entityManager->persist($participant);
+            $entityManager->flush();
 
             $this->addFlash('success', 'L\'inscritpion a été un succès ! ;)');
 
 
-            return $guard->authenticateUserAndHandleSuccess($participant, $request, $login, 'app_user_provider');
-
+           return $this->redirectToRoute('participant_inscription');
 
         }
         return $this->render('participant/register.html.twig',
