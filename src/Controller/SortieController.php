@@ -198,17 +198,28 @@ class SortieController extends AbstractController
     /**
      * @Route(name="deleteSortie", path="deleteSortie/{id}",  methods={"POST","GET"})
      */
-    public function deleteSortie (Request $request, EntityManagerInterface $entityManager)
+    public function deleteSortie ($id, Sortie $sortie, Request $request, EntityManagerInterface $entityManager)
     {
-       $id = $request->get('id');
-       $sortie = $entityManager->getRepository('App:Sortie')->findOneBy(['id'=>$id]);
-       $etat = $entityManager->getRepository('App:Etat')->findOneBy(['id'=>4]);
-       $sortie->setEtat($etat);
+        $sortie = new Sortie();
+        // Création du formulaire
+        $formSortie = $this->createForm('App\Form\AnnuleSortieType', $sortie);
 
-       $entityManager->flush();
+        // Récupération des données de la requête HTTP (Navigateur) au formulaire
+        $formSortie->handleRequest($request);
+
+        // Vérification de la soumission du formulaire
+        if ($formSortie->isSubmitted() && $formSortie->isValid()) {
+
+            $sortie = $entityManager->getRepository('App:Sortie')->findOneBy(['id', $id]);
+            $etat = $entityManager->getRepository('App:Etat')->findOneBy(['id' => 3]);
+            $sortie->setEtat($etat);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
 
 
-        return $this->redirectToRoute('home_home');
+            return $this->redirectToRoute('home_home');
+        }
+    return $this->render("sortie/annulation.sortie.html.twig", ['annulSortie'=>$formSortie->createView()]);
     }
 
     /**
