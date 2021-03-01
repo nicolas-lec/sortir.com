@@ -17,7 +17,6 @@ class Lieu
      */
     private $id;
 
-
     /**
      * @ORM\Column(type="string", length=150)
      */
@@ -47,18 +46,6 @@ class Lieu
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdLieu(): ?int
-    {
-        return $this->idLieu;
-    }
-
-    public function setIdLieu(int $idLieu): self
-    {
-        $this->idLieu = $idLieu;
-
-        return $this;
     }
 
     public function getNom(): ?string
