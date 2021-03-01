@@ -6,20 +6,28 @@
 
     <h1>Annulation</h1>
 
+    {# read and display all flash messages #}
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 
-    {{ form_start(annulSortie) }}
+    {{ form_start(descriptionAnnul) }}
 
     <div class="container">
 
     <div class="form-group" >
-        {{ form_label((annulSortie.descriptionAnnul)) }}
-        {{ form_widget(annulSortie.descriptionAnnul, {'attr': {'class': 'form-control'}}) }}
+        {{ form_label((descriptionAnnul.descriptionAnnul)) }}
+        {{ form_widget(descriptionAnnul.descriptionAnnul, {'attr': {'class': 'form-control'}}) }}
     </div>
 
     <div class="form-group">
-        {{ form_widget(annulSortie.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+        {{ form_widget(descriptionAnnul.submit, {'attr': {'class': 'btn btn-primary'}}) }}
     </div>
 
-    {{ form_end(annulSortie) }}
+    {{ form_end(descriptionAnnul) }}
 
 {% endblock %}

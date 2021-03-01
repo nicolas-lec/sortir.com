@@ -8,6 +8,8 @@ use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Integer;
+use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -90,6 +92,9 @@ class SortieController extends AbstractController
 
             // Validation de la transaction
             $entityManager->flush();
+
+            return $this->redirectToRoute('home_home');
+
 
 
         }
@@ -200,7 +205,8 @@ class SortieController extends AbstractController
      */
     public function deleteSortie ($id, Sortie $sortie, Request $request, EntityManagerInterface $entityManager)
     {
-        $sortie = new Sortie();
+
+
         // Création du formulaire
         $formSortie = $this->createForm('App\Form\AnnuleSortieType', $sortie);
 
@@ -208,18 +214,23 @@ class SortieController extends AbstractController
         $formSortie->handleRequest($request);
 
         // Vérification de la soumission du formulaire
-        if ($formSortie->isSubmitted() && $formSortie->isValid()) {
-
-            $sortie = $entityManager->getRepository('App:Sortie')->findOneBy(['id', $id]);
+        if ($formSortie->isSubmitted() && $formSortie->isValid())
+        {
+            $annulation = $formSortie['descriptionAnnul']->getData();
+            $sortieId =(int)$id;
+            $sortie = $entityManager->getRepository('App:Sortie')->findOneBy(['id'=> $sortieId]);
             $etat = $entityManager->getRepository('App:Etat')->findOneBy(['id' => 3]);
             $sortie->setEtat($etat);
+            $sortie->setDescriptionAnnul($annulation);
+
             $entityManager->persist($sortie);
             $entityManager->flush();
 
+            return $this->redirectToRoute('sortie_detailSortie', ['id' => $sortie->getId()]);
 
-            return $this->redirectToRoute('home_home');
         }
-    return $this->render("sortie/annulation.sortie.html.twig", ['annulSortie'=>$formSortie->createView()]);
+        return $this->render("sortie/annulation.sortie.html.twig",['descriptionAnnul'=>$formSortie->createView()]);
+
     }
 
     /**
