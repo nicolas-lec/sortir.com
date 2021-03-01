@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Lieu;
 use App\Entity\Sortie;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateIntervalToStringTransformer;
@@ -58,6 +59,14 @@ class SortieType extends AbstractType
             'label' => 'Description :',
             'trim' => true,
             'required' => true,
+        ]);
+
+        $builder->add('lieu',EntityType::class, [
+        'class' => Lieu::class,
+        'choice_label' => 'nom',
+        'query_builder' => function(EntityRepository $repository) {
+            return $repository->createQueryBuilder('lieu')->orderBy('lieu.nom', 'ASC');
+        }
         ]);
 //
 //        $builder->add('submit', SubmitType::class, [

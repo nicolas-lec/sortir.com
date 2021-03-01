@@ -53,9 +53,13 @@ class SortieController extends AbstractController
 
         // Vérification de la soumission du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
+            //Envoi de l'id de l'utilisateur
             $participant = $this->getUser();
             $sortie->setOrganisateur($participant);
 
+            //Récupération du campus de l'utilisateur créant la sortie
+            $campus = $this->getUser()->getSite();
+            $sortie->setSite($campus);
 
             //L'objet request permet de récupérer la value bouton provenant du twig
             $env = $request->request->get('envoyer');
@@ -67,6 +71,8 @@ class SortieController extends AbstractController
                 //Envoi de l'état de la sortie publiée
                 $etat = $entityManager->getRepository('App:Etat')->findOneBy(['id'=>1]);
                 $sortie->setEtat($etat);
+                // Ajout d'un message de confirmation
+                $this->addFlash('success', 'Votre sortie a été ajoutée avec succès !');
                //dd($sortie);
 
             }
@@ -74,6 +80,8 @@ class SortieController extends AbstractController
                 //Envoi de l'état de la sortie enregistrée
                 $etat = $entityManager->getRepository('App:Etat')->findOneBy(['id'=>2]);
                 $sortie->setEtat($etat);
+                // Ajout d'un message de confirmation
+                $this->addFlash('success', 'Votre sortie a été enregistrée avec succès !');
 
             }
             //dd($sortie);
@@ -83,8 +91,7 @@ class SortieController extends AbstractController
             // Validation de la transaction
             $entityManager->flush();
 
-            // Ajout d'un message de confirmation
-            $this->addFlash('success', 'Votre sortie a été ajoutée avec succès !');
+
         }
         return $this->render('sortie/sortie.html.twig', ['formSortie' => $form->createView()]);
 
