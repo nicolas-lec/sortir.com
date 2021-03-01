@@ -81,6 +81,7 @@ class Participant implements UserInterface
      */
     private $Site;
 
+
     public function __construct()
     {
         $this->sortie = new ArrayCollection();
