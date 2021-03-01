@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
+
 {% block body %}
 
     <h1>Modifier votre sortie</h1>
 
     {% form_theme formSortie 'bootstrap_4_layout.html.twig' %}
+
 
     {# read and display all flash messages #}
     {% for type, messages in app.flashes %}
@@ -48,16 +50,18 @@
             {{ form_label((formSortie.infoSortie)) }}
             {{ form_widget(formSortie.infoSortie, {'attr': {'class': 'form-control'}}) }}
         </div>
-        {#
-        <div class="form-group">
-            {{ form_widget(formSortie.submit, {'attr': {'class': 'btn btn-primary'}}) }}
-        </div>
-        #}
 
-        <div>
-            <a class="btn btn-primary" href="{{ url('sortie_detailSortie', {'id': sortie.id}) }}">Annuler</a>
+        <div class="form-group">
+                {{ form_row(formSortie.lieu,  {'attr': {'class': 'form-control'}}) }}
         </div>
+        <div class="form-group">
+            {{ form_row(formSortie.site,  {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+
+
     </div>
+
 
     {{ form_end(formSortie) }}
 
