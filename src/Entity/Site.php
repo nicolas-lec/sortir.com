@@ -71,7 +71,7 @@ class Site
         return $this->sorties;
     }
 
-    public function addSorty(Sortie $sortie): self
+    public function addSortie(Sortie $sortie): self
     {
         if (!$this->sorties->contains($sortie)) {
             $this->sorties[] = $sortie;

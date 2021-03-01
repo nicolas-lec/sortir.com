@@ -28,8 +28,8 @@
         </div>
 
         <div class="form-group">
-            {{ form_label((participantForm.roles)) }}
-            {{ form_widget(participantForm.roles, {'attr': {'class': 'form-control'}}) }}
+            {{ form_label((participantForm.admin)) }}
+            {{ form_widget(participantForm.admin, {'attr': {'class': 'form-control'}}) }}
         </div>
 
         <div class="form-group">
@@ -58,6 +58,10 @@
         <div class="form-group">
             {{ form_label((participantForm.actif)) }}
             {{ form_widget(participantForm.actif, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label((participantForm.site)) }}
+            {{ form_widget(participantForm.site, {'attr': {'class': 'form-control'}}) }}
         </div>
 
         <div class="form-group">
