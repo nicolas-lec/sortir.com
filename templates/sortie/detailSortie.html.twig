@@ -36,8 +36,10 @@
     {% endif %}
     {% endif %}
 
+    {% if (sortie.descriptionAnnul == false)%}
     {% if(app.user in sortie.idparticipant) %}
     <a class="btn btn-lg btn-primary" href="{{ path('sortie_desinscriptionSortie', {"id": sortie.id }) }}">Se désinscrire</a>
+    {% endif %}
     {% endif %}
 
     {% if (sortie.descriptionAnnul == false)%}
