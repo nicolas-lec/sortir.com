@@ -61,12 +61,54 @@
             {{ form_row(formSortie.lieu,  {'attr': {'class': 'form-control'}}) }}
         </div>
 
+        <div class="form-group" >
+            <p id='ville'> Ville : </p>
+        </div>
+
+        <div class="form-group" >
+            <p id='cp'> Code Postal : </p>
+        </div>
+
+        <div class="form-group" >
+            <p id='rue'> Rue : </p>
+        </div>
+
+        <div class="form-group" >
+            <p id='latitude'> Latitude : </p>
+        </div>
+
+        <div class="form-group" >
+            <p id='longitude'> Longitude : </p>
+        </div>
+
         <div>
             <button class="btn btn-primary" type="submit" name="envoyer" value="enregistrer">Enregistrer</button>
             <button class="btn btn-primary" type="submit" name="envoyer" value="publier">Publier</button>
             <a class="btn btn-primary" href="{{ url('home_home') }}">Annuler</a>
         </div>
     </div>
+    <script>
+        let lieu = document.getElementById('sortie_lieu') ;
+        let ville = document.getElementById('ville');
+        let cp = document.getElementById('cp');
+        let rue = document.getElementById('rue');
+        let latitude = document.getElementById('latitude');
+        let longitude = document.getElementById('longitude');
+
+        $(document).getElementById(lieu)
+        $.ajax = function (param) {
+            
+        }
+        {
+            $.ajax({
+                url : 'LieuApiController.php',
+                type : 'GET',
+
+                ville.innerHTML = data.lieu.ville
+            });
+        }
+
+    </script>
 
     {{ form_end(formSortie) }}
 

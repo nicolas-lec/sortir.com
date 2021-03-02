@@ -27,6 +27,7 @@ class Ville
     private $nom;
 
     /**
+     * @Groups({"list_lieu"})
      * @ORM\Column(type="string", length=5)
      */
     private $codePostal;
