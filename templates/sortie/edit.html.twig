@@ -1,4 +1,7 @@
 {% extends 'base.html.twig' %}
+{% block head %}
+    <script src="assets/app.js"></script>
+{% endblock %}
 
 {% block body %}
 
@@ -55,15 +58,60 @@
                 {{ form_row(formSortie.lieu,  {'attr': {'class': 'form-control'}}) }}
         </div>
 
+            <p id='ville'> Ville : </p>
+
+
+            <p id='cp'> Code Postal : </p>
+
+
+            <p id='rue'> Rue : </p>
+
+
+            <p id='latitude'> Latitude : </p>
+
+
+            <p id='longitude'> Longitude : </p>
+
         <div>
             <a class="btn btn-light" href="{{ url('sortie_detailSortie', {'id': sortie.id}) }}">Annuler</a>
         </div>
 
 
     </div>
-
-
     {{ form_end(formSortie) }}
 
+    <script>
+
+        const URL = "{{ path('api_lieu_api', {id:0}) }}";
+        let lieu = document.getElementById('update_sortie_lieu');
+        let ville = document.getElementById('ville');
+        let cp = document.getElementById('cp');
+        let rue = document.getElementById('rue');
+        let latitude = document.getElementById('latitude');
+        let longitude = document.getElementById('longitude');
+        lieu.addEventListener('change', function () {
+            let index = lieu.selectedIndex;
+            let url = URL.replace('0', index);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {id: index},
+                success: function (data) {
+                    ville.innerHTML = "Ville : " + data.ville.nom;
+                    cp.innerHTML = "Code Postal : " + data.ville.codePostal;
+                    rue.innerHTML = "Rue : " + data.rue;
+                    latitude.innerHTML = "Latitude : " + data.latitude;
+                    longitude.innerHTML = "Longitude : " + data.longitude;
+                },
+                error: function (jqXHR, status, error) {
+                    console.log('error' + error);
+                }
+            });
+        })
+    </script>
 
 {% endblock %}
+
+
+
+
