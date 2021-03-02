@@ -32,8 +32,8 @@ class UpdateParticipantType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
-                    new Regex(['pattern' =>'/^(?=.*\d)(?=.*[A-Z])(?=.*[@#$%])(?!.*(.)\1{2}).*[a-z]/m',
-                        'match' =>true,
+                    new Regex(['pattern' => '/^(?=.*\d)(?=.*[A-Z])(?=.*[@#$%])(?!.*(.)\1{2}).*[a-z]/m',
+                        'match' => true,
                         'message' => "Votre mot de passe doit comporter au moins huit caractères, dont des lettres majuscules et minuscules, un chiffre et un symbole."
                     ])
                 ],
@@ -74,8 +74,7 @@ class UpdateParticipantType extends AbstractType
                 'attr' => [
                     'maxlength' => 50
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

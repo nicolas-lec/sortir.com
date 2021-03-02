@@ -8,6 +8,8 @@ use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Integer;
+use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -90,6 +92,9 @@ class SortieController extends AbstractController
 
             // Validation de la transaction
             $entityManager->flush();
+
+            return $this->redirectToRoute('home_home');
+
 
 
         }
@@ -198,17 +203,34 @@ class SortieController extends AbstractController
     /**
      * @Route(name="deleteSortie", path="deleteSortie/{id}",  methods={"POST","GET"})
      */
-    public function deleteSortie (Request $request, EntityManagerInterface $entityManager)
+    public function deleteSortie ($id, Sortie $sortie, Request $request, EntityManagerInterface $entityManager)
     {
-       $id = $request->get('id');
-       $sortie = $entityManager->getRepository('App:Sortie')->findOneBy(['id'=>$id]);
-       $etat = $entityManager->getRepository('App:Etat')->findOneBy(['id'=>4]);
-       $sortie->setEtat($etat);
-
-       $entityManager->flush();
 
 
-        return $this->redirectToRoute('home_home');
+        // Création du formulaire
+        $formSortie = $this->createForm('App\Form\AnnuleSortieType', $sortie);
+
+        // Récupération des données de la requête HTTP (Navigateur) au formulaire
+        $formSortie->handleRequest($request);
+
+        // Vérification de la soumission du formulaire
+        if ($formSortie->isSubmitted() && $formSortie->isValid())
+        {
+            $annulation = $formSortie['descriptionAnnul']->getData();
+            $sortieId =(int)$id;
+            $sortie = $entityManager->getRepository('App:Sortie')->findOneBy(['id'=> $sortieId]);
+            $etat = $entityManager->getRepository('App:Etat')->findOneBy(['id' => 3]);
+            $sortie->setEtat($etat);
+            $sortie->setDescriptionAnnul($annulation);
+
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('sortie_detailSortie', ['id' => $sortie->getId()]);
+
+        }
+        return $this->render("sortie/annulation.sortie.html.twig",['descriptionAnnul'=>$formSortie->createView()]);
+
     }
 
     /**
