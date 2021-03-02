@@ -10,6 +10,7 @@ use App\Form\UpdateParticipantType;
 use App\Repository\ParticipantRepository;
 use App\Security\LoginAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Client\Curl\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -60,14 +61,14 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("profil", name="profil")
+     * @Route(path="profil", name="profil")
      * @IsGranted("ROLE_USER", statusCode=404, message="L'accès est réservé au personne inscrite")
      */
     public function profil()
     {
-        return $this->render('participant/profil.html.twig', [
-            'Controller_name' => 'ParticipantController'
-        ]);
+            return $this->render('participant/profil.html.twig', [
+                'Controller_name' => 'ParticipantController'
+            ]);
     }
 
     /**
@@ -96,6 +97,18 @@ class ParticipantController extends AbstractController
         return $this->render("participant/update.html.twig", [
             'formUser' => $formUser->createView(),
             'user' => $user
+        ]);
+    }
+    /**
+     * @Route(path="profilParticipant/{id}", name="profilParticipant", methods={"GET","Post"}, requirements={"id": "\d+"})
+     * @IsGranted("ROLE_USER", statusCode=404, message="L'accès est réservé au personne inscrite")
+     */
+    public function profilParticipant($id, ParticipantRepository $repository)
+    {
+        $p = $repository->find($id);
+        return $this->render('participant/profilParticipant.html.twig', [
+            'p'=>$p,
+            'Controller_name' => 'ParticipantController'
         ]);
     }
 }
