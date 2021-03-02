@@ -12,6 +12,8 @@ use App\Security\LoginAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,13 +39,31 @@ class ParticipantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $admin = $form->get('admin')->getData();
+            $imageFile = $form->get('imageUser')->getData();
             if ($admin==true)
                 $participant->setRoles(['ROLE_ADMIN']);
             else
                 $participant->setRoles(['ROLE_USER']);
 
+
+            //Tentative d'ajout d'une photo de profil
+            if($imageFile) {
+                $originalFileName = pathinfo($imageFile->getClientOriginalName(),PATHINFO_FILENAME);
+                $safeFileName = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove;'
+                .'Lower()', $originalFileName);
+                $newFileName = $safeFileName.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                try {
+                    $imageFile->move (
+                        $this -> getParameter('images_directory'),
+                        $newFileName
+                    );
+                } catch (FileException $e) {
+
+                }
+                $participant -> setImageFileName($newFileName);
+            }
             $participant->setPassword($passwordEncoder->encodePassword($participant, $participant->getPlainPassword()));
             $entityManager->persist($participant);
             $entityManager->flush();

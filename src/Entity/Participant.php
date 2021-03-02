@@ -81,6 +81,11 @@ class Participant implements UserInterface
      */
     private $Site;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imageFileName;
+
 
     public function __construct()
     {
@@ -307,6 +312,18 @@ class Participant implements UserInterface
     public function setSite(?Site $Site): self
     {
         $this->Site = $Site;
+
+        return $this;
+    }
+
+    public function getImageFileName(): ?string
+    {
+        return $this->imageFileName;
+    }
+
+    public function setImageFileName(?string $imageFileName): self
+    {
+        $this->imageFileName = $imageFileName;
 
         return $this;
     }
