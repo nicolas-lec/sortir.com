@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bonjour,{{ p.nom}} {% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-body row justify-content-center">
+            <div class="col-auto text-center">
+                <h1 class="d-block">{{ p.nom }} {{ p.prenom }}</h1>
+                <p class="title d-block"><b>{{ p.pseudo }}</b></p>
+                {% if app.user.mail is not null %}
+                    <a href="#" class="d-block"><i class="fas fa-at"></i> {{ p.mail }}</a>
+                {% endif %}
+                {% if app.user.telephone is not null %}
+                    <a href="#" class="d-block"><i class="fas fa-phone"></i> {{ p.telephone }}</a>
+                {% endif %}
+            </div>
+        </div>
+        {% if app.user.id == p.id and app.user.id() %}
+            <div class="col text-center">
+                <a class="btn btn-info" href="{{ url('participant_update') }}">Modifier</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

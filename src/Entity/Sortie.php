@@ -33,6 +33,7 @@ class Sortie
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive
      */
     private $duree;
 
@@ -45,6 +46,7 @@ class Sortie
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive
      */
     private $nbInscriptionsMax;
 

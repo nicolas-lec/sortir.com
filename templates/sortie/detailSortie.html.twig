@@ -66,7 +66,7 @@
             {% if sortie.idparticipant is not empty %}
                 {% for p in sortie.idparticipant %}
                     <tr class="text-center">
-                        <td scope="row">{{ p.pseudo }}</td>
+                        <td scope="row" ><a href="{{ path('participant_profilParticipant',{'id': p.id}) }}"> {{ p.pseudo }}</a></td>
                         <td scope="row"> {{ p.prenom }} {{ p.nom }}</td>
                     </tr>
                 {% else %}
