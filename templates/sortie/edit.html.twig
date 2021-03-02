@@ -90,12 +90,12 @@
         let latitude = document.getElementById('latitude');
         let longitude = document.getElementById('longitude');
         lieu.addEventListener('change', function () {
-            let index = lieu.selectedIndex;
+            let index = lieu.value;
             let url = URL.replace('0', index);
             $.ajax({
                 url: url,
-                type: 'POST',
-                data: {id: index},
+                type: 'GET',
+                //data: {id: index},
                 success: function (data) {
                     ville.innerHTML = "Ville : " + data.ville.nom;
                     cp.innerHTML = "Code Postal : " + data.ville.codePostal;
