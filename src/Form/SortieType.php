@@ -69,10 +69,6 @@ class SortieType extends AbstractType
             return $repository->createQueryBuilder('lieu')->orderBy('lieu.nom', 'ASC');
         }
         ]);
-//
-//        $builder->add('submit', SubmitType::class, [
-//            'label' => 'Envoyer',
-//        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

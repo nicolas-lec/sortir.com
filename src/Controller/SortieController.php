@@ -244,7 +244,7 @@ class SortieController extends AbstractController
      */
     public function updateSortie ($id, Request $request, EntityManagerInterface $em)
     {
-        $sortie = $em->getRepository(Sortie::class)->find($id);
+        $sortie = $em->getRepository('App:Sortie')->findOneBy(['id'=> $id]);
         $formSortie = $this->createForm('App\Form\UpdateSortieType',$sortie);
         $formSortie->handleRequest($request);
         if($formSortie->isSubmitted() && $formSortie->isValid())
@@ -253,10 +253,15 @@ class SortieController extends AbstractController
             if($user == null || $user->getId() != $sortie->getOrganisateur()->getId()){
                 return $this->redirectToRoute("home_home");
             }
-            $em->persist($sortie);
-            $em->flush();
-            $this->addFlash('success', "La sortie a été modifié");
+            $env = $request->request->get('modifier');
+            $publier = 'publier';
 
+            if($env === $publier){
+                $etat = $em->getRepository('App:Etat')->findOneBy(['id'=>1]);
+                $sortie->setEtat($etat);
+                // Ajout d'un message de confirmation
+                $this->addFlash('success', 'Votre sortie a été publier avec succès !');
+            }
             return $this->redirectToRoute("sortie_detailSortie",
                 ['id' => $sortie->getId()]);
         }
