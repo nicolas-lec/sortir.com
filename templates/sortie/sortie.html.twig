@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+
 {% block title %}Création d'une sortie <script src="/assets/app.js"></script>
 {% endblock %}
 
@@ -61,24 +62,26 @@
             {{ form_row(formSortie.lieu,  {'attr': {'class': 'form-control'}}) }}
         </div>
 
-        <div class="form-group" >
-            <p id='ville'> Ville : </p>
-        </div>
+        <div id="detail">
+            <div class="form-group" >
+                <p id='ville'> Ville : </p>
+            </div>
 
-        <div class="form-group" >
-            <p id='cp'> Code Postal : </p>
-        </div>
+            <div class="form-group" >
+                <p id='cp'> Code Postal : </p>
+            </div>
 
-        <div class="form-group" >
-            <p id='rue'> Rue : </p>
-        </div>
+            <div class="form-group" >
+                <p id='rue'> Rue : </p>
+            </div>
 
-        <div class="form-group" >
-            <p id='latitude'> Latitude : </p>
-        </div>
+            <div class="form-group" >
+                <p id='latitude'> Latitude : </p>
+            </div>
 
-        <div class="form-group" >
-            <p id='longitude'> Longitude : </p>
+            <div class="form-group" >
+                <p id='longitude'> Longitude : </p>
+            </div>
         </div>
 
         <div>
@@ -87,7 +90,7 @@
             <a class="btn btn-primary" href="{{ url('home_home') }}">Annuler</a>
         </div>
     </div>
-    <script>
+   {# <script>
         let lieu = document.getElementById('sortie_lieu') ;
         let ville = document.getElementById('ville');
         let cp = document.getElementById('cp');
@@ -95,20 +98,64 @@
         let latitude = document.getElementById('latitude');
         let longitude = document.getElementById('longitude');
 
-        $(document).getElementById(lieu)
-        $.ajax = function (param) {
-            
-        }
-        {
+        lieu.addEventListener('change', function() {
+            let index = lieu.selectedIndex;
             $.ajax({
-                url : 'LieuApiController.php',
+                url : 'Api/api/v1/lieu/{id}',
                 type : 'GET',
+                data : {id : index},
 
-                ville.innerHTML = data.lieu.ville
+                success : function(data) {
+                    ville.innerHTML ="Ville :" + data.ville.nom;
+                    cp.innerHTML ="Code Postal :" + data.cp;
+                    rue.innerHTML ="Rue :" + data.rue;
+                    latitude.innerHTML ="Latitude :" + data.latitude;
+                    longitude.innerHTML ="Longitude :" + data.longitude;
+                },
+                error : function(jqXHR, status, error) {
+                    console.log('error' + error);
+                }
             });
-        }
+        })
 
-    </script>
+    </script> #}
+
+<script>
+    //defini le path avec une id zero
+    const URL = "{{ path('api_lieu_api', {id:0}) }}";
+    // récupère le lieu
+    let lieu = document.getElementById('sortie_lieu');
+    let ville = document.getElementById('ville');
+    let cp = document.getElementById('cp');
+    let rue = document.getElementById('rue');
+    let latitude = document.getElementById('latitude');
+    let longitude = document.getElementById('longitude');
+    lieu.addEventListener('change', function() {
+        //récupère l'id du lieu
+        let index = lieu.selectedIndex;
+
+        //remplace le 0 de l'url par l'index récupéré
+        let url = URL.replace('0', index);
+
+        $.ajax ({
+        url: url,
+        method : "GET",
+        dataType : "json",
+        })
+
+        .done(function(response){
+            console.log(response);
+            let data = JSON.stringify(response);
+            $ ("div#detail").append(data);
+        })
+        .fail(function(error) {
+            alert("La requête s'est terminée en échec. Infos : " + JSON.stringify(error));
+        })
+
+
+
+    });
+</script>
 
     {{ form_end(formSortie) }}
 
