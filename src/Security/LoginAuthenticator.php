@@ -67,11 +67,11 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['pseudo' => $credentials['pseudo']]);
+        $user = $this->entityManager->getRepository(Participant::class)->loadUserByUsername($credentials['pseudo']);
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Ce pseudo n\'existe pas');
+            throw new CustomUserMessageAuthenticationException('Le mots de passe ou l\'id de connection est incorrect');
         }
 
         return $user;

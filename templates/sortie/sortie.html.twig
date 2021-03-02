@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+
 {% block title %}Création d'une sortie <script src="/assets/app.js"></script>
 {% endblock %}
 
@@ -61,6 +62,16 @@
             {{ form_row(formSortie.lieu,  {'attr': {'class': 'form-control'}}) }}
         </div>
 
+        <p id='ville'> Ville : </p>
+
+        <p id='cp'> Code Postal : </p>
+
+        <p id='rue'> Rue : </p>
+
+        <p id='latitude'> Latitude : </p>
+
+        <p id='longitude'> Longitude : </p>
+
         <div>
             <button class="btn btn-primary" type="submit" name="envoyer" value="enregistrer">Enregistrer</button>
             <button class="btn btn-primary" type="submit" name="envoyer" value="publier">Publier</button>
@@ -69,6 +80,49 @@
     </div>
 
     {{ form_end(formSortie) }}
+
+    <script>
+        //url de l'api est defini à 0
+        const URL = "{{ path('api_lieu_api', {id:0}) }}";
+
+        // on récupère chaque élément pour ensuite assigné des valeurs
+        let lieu = document.getElementById('sortie_lieu');
+        let ville = document.getElementById('ville');
+        let cp = document.getElementById('cp');
+        let rue = document.getElementById('rue');
+        let latitude = document.getElementById('latitude');
+        let longitude = document.getElementById('longitude');
+        // ajout d'un event sur la liste déroulane
+        lieu.addEventListener('change', function () {
+            //récupération de la valeur de la variable
+            let index = lieu.value;
+            //remplacement du 0 du path par la valeur du lieu
+            let url = URL.replace('0', index);
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                //data: {id: index},
+                success: function (data) {
+                    //assignation des valeurs aux paragraphe correspondant
+                    ville.innerHTML = "Ville : " + data.ville.nom;
+                    cp.innerHTML = "Code Postal : " + data.ville.codePostal;
+                    rue.innerHTML = "Rue : " + data.rue;
+                    latitude.innerHTML = "Latitude : " + data.latitude;
+                    longitude.innerHTML = "Longitude : " + data.longitude;
+                },
+                //Si présence d'une erreur console log
+                error: function (jqXHR, status, error) {
+                    console.log('error' + error);
+                }
+            });
+        })
+    </script>
+    <script>
+        document.getElementById(ville).style.display = none;
+    </script>
+
+
 
 
 {% endblock %}
