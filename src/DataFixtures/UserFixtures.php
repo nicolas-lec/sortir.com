@@ -40,7 +40,7 @@ class UserFixtures extends Fixture
         for ($i = 0; $i < 5; $i++) {
             $participant = new Participant();
             $participant->setPseudo('Admin' . $i);
-            $participant->setMail('admin1@mail.fr');
+            $participant->setMail('admin'. $i .'@mail.fr');
             $participant->setNom('Dupont' . $i);
             $participant->setPrenom('Gille' . $i);
             $participant->setTelephone('0647858095');
@@ -55,7 +55,7 @@ class UserFixtures extends Fixture
         for ($i = 0; $i < 3; $i++) {
             $participant = new Participant();
             $participant->setPseudo('Administrateur' . $i);
-            $participant->setMail('admin1@mail.fr');
+            $participant->setMail('administrateur'. $i .'@mail.fr');
             $participant->setNom('Leclerc' . $i);
             $participant->setPrenom('Nicolas' . $i);
             $participant->setTelephone('0647856205');
@@ -72,7 +72,7 @@ class UserFixtures extends Fixture
         for ($i = 0; $i < 20; $i++) {
             $participant = new Participant();
             $participant->setPseudo('User'.$i);
-            $participant->setMail('user@mail.fr');
+            $participant->setMail('user'. $i .'@mail.fr');
             $participant->setNom('Ligonnes' . $i);
             $participant->setPrenom('Xavier' . $i);
             $participant->setTelephone('0647856225');
