@@ -26,7 +26,7 @@ class Sortie
     private $nom;
 
     /**
-     * @Assert\GreaterThanOrEqual("today UTC", message="La date doit être supérieur a la date d'aujourd'hui !")
+     * @Assert\GreaterThan("today UTC", message="La date doit être supérieur a la date d'aujourd'hui !")
      * @ORM\Column(type="datetime")
      */
     private $dateHeureDebut;
@@ -39,6 +39,7 @@ class Sortie
 
     /**
      * @Assert\LessThanOrEqual(propertyPath="dateHeureDebut", message="La date limite d'inscription doit être inférieur a la date de début de sortie !")
+     * @Assert\GreaterThan("today UTC",message="La date doit être supérieur a la date d'aujourd'hui !")
      * @ORM\Column(type="datetime")
      *
      */
