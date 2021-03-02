@@ -87,7 +87,7 @@ class ParticipantController extends AbstractController
         $formUser->handleRequest($request);
         if ($formUser->isSubmitted() && $formUser->isValid()) {
             if ($formUser->get('passwordPlain')->getData() !== null) {
-                $hashed = $passwordEncoder->encodePassword(-$user, $formUser->get('passwordPlain')->getData());
+                $hashed = $passwordEncoder->encodePassword($user, $formUser->get('passwordPlain')->getData());
                 $user->setPassword($hashed);
             }
             $emi->persist($user);
