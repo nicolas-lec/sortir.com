@@ -63,6 +63,10 @@
             {{ form_label((participantForm.site)) }}
             {{ form_widget(participantForm.site, {'attr': {'class': 'form-control'}}) }}
         </div>
+        <div class="form-group">
+            {{ form_label((participantForm.imageUser)) }}
+            {{ form_widget(participantForm.imageUser, {'attr': {'class': 'form-control'}}) }}
+        </div>
 
         <div class="form-group">
             {{ form_widget(participantForm.submit, {'attr': {'class': 'btn btn-primary'}}) }}

@@ -13,12 +13,14 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ParticipantType extends AbstractType
 {
@@ -31,10 +33,10 @@ class ParticipantType extends AbstractType
                 'required' => true,
             ]);
 
-        $builder-> add('admin', CheckboxType::class, [
+        $builder->add('admin', CheckboxType::class, [
             'label' => 'Administrateur :',
             'mapped' => false,
-            'required'=>false
+            'required' => false
         ]);
 
         $builder->add('plainPassword', PasswordType::class,
@@ -43,36 +45,30 @@ class ParticipantType extends AbstractType
                 'trim' => true,
                 'required' => true,
             ]);
-
         $builder->add('nom', TextType::class,
             [
                 'label' => 'Nom :',
                 'trim' => true,
                 'required' => true,
             ]);
-
         $builder->add('prenom', TextType::class,
             [
                 'label' => 'Prénom :',
                 'trim' => true,
                 'required' => true,
             ]);
-
         $builder->add('telephone', NumberType::class,
             [
                 'label' => 'Téléphone :',
                 'trim' => true,
                 'required' => true,
-
             ]);
-
         $builder->add('mail', EmailType::class,
             [
                 'label' => 'E-mail :',
                 'trim' => true,
                 'required' => true,
             ]);
-
         $builder->add('actif', ChoiceType::class,
             [
                 'label' => 'Compte Utilisateur :',
@@ -83,8 +79,8 @@ class ParticipantType extends AbstractType
                     ],
                 'expanded' => true,
 
-            ]);
 
+            ]);
         $builder->add('site', EntityType::class,
             [
             'class' => Site::class,
@@ -92,8 +88,24 @@ class ParticipantType extends AbstractType
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('site')->orderBy('site.nom');
             }
-            ]);
-
+        ]);
+        $builder->add('imageUser', FileType::class, [
+            'label' => 'Photo de profil',
+            'mapped' => false,
+            'required' => false,
+            'constraints' => [
+                new File([
+                    'maxSize' => '10000k',
+                    'mimeTypes' => [
+                        'image/jpeg',
+                        'image/png',
+                        'image/svg+xml',
+                    ],
+                    'mimeTypesMessage' => 'Pour la photo de profil il faut que le fichier soit'.
+                    'sous l\'un des formats suivant : JPEG, PNG, SVG',
+                ])
+            ],
+        ]);
 
 
         $builder->add('submit', SubmitType::class,
