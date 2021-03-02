@@ -61,7 +61,7 @@
         <div class="form-group">
             {{ form_row(formSortie.lieu,  {'attr': {'class': 'form-control'}}) }}
         </div>
-
+        <div class="infoLieu">
         <p id='ville'> Ville : </p>
 
         <p id='cp'> Code Postal : </p>
@@ -71,7 +71,7 @@
         <p id='latitude'> Latitude : </p>
 
         <p id='longitude'> Longitude : </p>
-
+        </div>
         <div>
             <button class="btn btn-primary" type="submit" name="envoyer" value="enregistrer">Enregistrer</button>
             <button class="btn btn-primary" type="submit" name="envoyer" value="publier">Publier</button>
@@ -117,12 +117,10 @@
                 }
             });
         })
+        $('.infoLieu').hide(0);
+        $('#sortie_lieu').click(function() {
+            $('.infoLieu').show(2000);
+        });
     </script>
-    <script>
-        document.getElementById(ville).style.display = none;
-    </script>
-
-
-
 
 {% endblock %}
