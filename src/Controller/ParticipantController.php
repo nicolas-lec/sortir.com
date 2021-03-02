@@ -14,6 +14,7 @@ use http\Client\Curl\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -107,9 +108,12 @@ class ParticipantController extends AbstractController
         $formUser->handleRequest($request);
         if ($formUser->isSubmitted() && $formUser->isValid()) {
             if ($formUser->get('passwordPlain')->getData() !== null) {
-                $hashed = $passwordEncoder->encodePassword(-$user, $formUser->get('passwordPlain')->getData());
+                $hashed = $passwordEncoder->encodePassword($user, $formUser->get('passwordPlain')->getData());
                 $user->setPassword($hashed);
             }
+            $user->setImageFileName(
+                new File($this->getParameter('images_directory').'/'.$user->getImageFileName())
+            );
             $emi->persist($user);
             $emi->flush();
             return $this->redirectToRoute("participant_profil", ["id" => $user->getId()]);

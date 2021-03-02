@@ -14,6 +14,9 @@
                 {% if app.user.telephone is not null %}
                     <a href="#" class="d-block"><i class="fas fa-phone"></i> {{ app.user.telephone }}</a>
                 {% endif %}
+                {% if app.user.imageFileName is not null %}
+                    <img src="{{ asset('build/uploads/imageUser/' ~ app.user.imageFileName) }}">
+                {% endif %}
             </div>
         </div>
         {% if app.user.id is not null %}

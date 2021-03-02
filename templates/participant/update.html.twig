@@ -39,6 +39,10 @@
         <div class="form-group" >
             {{ form_row(formUser.passwordPlain) }}
         </div>
+        <div class="form-group">
+            {{ form_label((formUser.imageUser)) }}
+            {{ form_widget(formUser.imageUser, {'attr': {'class': 'form-control'}}) }}
+        </div>
 
         <div class="form-group" >
             <button class="btn btn-light mt-4" type="submit">Confirmer</button>
