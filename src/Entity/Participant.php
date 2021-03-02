@@ -13,7 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"pseudo"})})
- * @UniqueEntity("pseudo", message="Ce pseudo est déja pris !")
+ * @UniqueEntity("pseudo", message="Ce pseudo est déja pris !", "mail", message="Ce mail est déja pris !")
+ * @UniqueEntity("mail", message="Ce mail est déja pris !")
  */
 class Participant implements UserInterface
 {
@@ -51,14 +52,15 @@ class Participant implements UserInterface
     private $prenom;
 
     /**
-     * @ORM\Column(type="string", length=10)
-     */
-    private $telephone;
-
-    /**
      * @ORM\Column(type="string", length=150, unique=true)
      */
     private $mail;
+
+    /**
+     * @ORM\Column(type="string", length=10,)
+     * @Assert\PositiveOrZero(message="Inserez un numéro valide")
+     */
+    private $telephone;
 
     /**
      * @ORM\Column(type="boolean")

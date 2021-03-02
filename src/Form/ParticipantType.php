@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Participant;
 use App\Entity\Site;
 use Doctrine\ORM\EntityRepository;
+use http\Message;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 
@@ -29,51 +30,49 @@ class ParticipantType extends AbstractType
                 'trim' => true,
                 'required' => true,
             ]);
-        /*
-        $builder->add('roles', ChoiceType::class, array(
 
-            'label' => 'Role de l\'utilisateur :',
-            'choices' => ['ROLE ADMIN' => 'ROLE_ADMIN'],
-            'expanded' => true,
-            'multiple' => true
-
-        ));
-*/
         $builder-> add('admin', CheckboxType::class, [
             'label' => 'Administrateur :',
             'mapped' => false,
             'required'=>false
         ]);
-        $builder->add('password', PasswordType::class,
+
+        $builder->add('plainPassword', PasswordType::class,
             [
                 'label' => 'Mots de passe :',
                 'trim' => true,
                 'required' => true,
             ]);
+
         $builder->add('nom', TextType::class,
             [
                 'label' => 'Nom :',
                 'trim' => true,
                 'required' => true,
             ]);
+
         $builder->add('prenom', TextType::class,
             [
                 'label' => 'Prénom :',
                 'trim' => true,
                 'required' => true,
             ]);
+
         $builder->add('telephone', NumberType::class,
             [
                 'label' => 'Téléphone :',
                 'trim' => true,
                 'required' => true,
+
             ]);
+
         $builder->add('mail', EmailType::class,
             [
                 'label' => 'E-mail :',
                 'trim' => true,
                 'required' => true,
             ]);
+
         $builder->add('actif', ChoiceType::class,
             [
                 'label' => 'Compte Utilisateur :',
@@ -84,16 +83,16 @@ class ParticipantType extends AbstractType
                     ],
                 'expanded' => true,
 
-
             ]);
 
-        $builder->add('site', EntityType::class, [
+        $builder->add('site', EntityType::class,
+            [
             'class' => Site::class,
             'choice_label' => 'nom',
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('site')->orderBy('site.nom');
             }
-        ]);
+            ]);
 
 
 
