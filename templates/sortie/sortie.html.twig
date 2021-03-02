@@ -62,27 +62,15 @@
             {{ form_row(formSortie.lieu,  {'attr': {'class': 'form-control'}}) }}
         </div>
 
-        <div id="detail">
-            <div class="form-group" >
-                <p id='ville'> Ville : </p>
-            </div>
+        <p id='ville'> Ville : </p>
 
-            <div class="form-group" >
-                <p id='cp'> Code Postal : </p>
-            </div>
+        <p id='cp'> Code Postal : </p>
 
-            <div class="form-group" >
-                <p id='rue'> Rue : </p>
-            </div>
+        <p id='rue'> Rue : </p>
 
-            <div class="form-group" >
-                <p id='latitude'> Latitude : </p>
-            </div>
+        <p id='latitude'> Latitude : </p>
 
-            <div class="form-group" >
-                <p id='longitude'> Longitude : </p>
-            </div>
-        </div>
+        <p id='longitude'> Longitude : </p>
 
         <div>
             <button class="btn btn-primary" type="submit" name="envoyer" value="enregistrer">Enregistrer</button>
@@ -90,74 +78,51 @@
             <a class="btn btn-primary" href="{{ url('home_home') }}">Annuler</a>
         </div>
     </div>
-   {# <script>
-        let lieu = document.getElementById('sortie_lieu') ;
+
+    {{ form_end(formSortie) }}
+
+    <script>
+        //url de l'api est defini à 0
+        const URL = "{{ path('api_lieu_api', {id:0}) }}";
+
+        // on récupère chaque élément pour ensuite assigné des valeurs
+        let lieu = document.getElementById('sortie_lieu');
         let ville = document.getElementById('ville');
         let cp = document.getElementById('cp');
         let rue = document.getElementById('rue');
         let latitude = document.getElementById('latitude');
         let longitude = document.getElementById('longitude');
+        // ajout d'un event sur la liste déroulane
+        lieu.addEventListener('change', function () {
+            //récupération de la valeur de la variable
+            let index = lieu.value;
+            //remplacement du 0 du path par la valeur du lieu
+            let url = URL.replace('0', index);
 
-        lieu.addEventListener('change', function() {
-            let index = lieu.selectedIndex;
             $.ajax({
-                url : 'Api/api/v1/lieu/{id}',
-                type : 'GET',
-                data : {id : index},
-
-                success : function(data) {
-                    ville.innerHTML ="Ville :" + data.ville.nom;
-                    cp.innerHTML ="Code Postal :" + data.cp;
-                    rue.innerHTML ="Rue :" + data.rue;
-                    latitude.innerHTML ="Latitude :" + data.latitude;
-                    longitude.innerHTML ="Longitude :" + data.longitude;
+                url: url,
+                type: 'GET',
+                //data: {id: index},
+                success: function (data) {
+                    //assignation des valeurs aux paragraphe correspondant
+                    ville.innerHTML = "Ville : " + data.ville.nom;
+                    cp.innerHTML = "Code Postal : " + data.ville.codePostal;
+                    rue.innerHTML = "Rue : " + data.rue;
+                    latitude.innerHTML = "Latitude : " + data.latitude;
+                    longitude.innerHTML = "Longitude : " + data.longitude;
                 },
-                error : function(jqXHR, status, error) {
+                //Si présence d'une erreur console log
+                error: function (jqXHR, status, error) {
                     console.log('error' + error);
                 }
             });
         })
-
-    </script> #}
-
-<script>
-    //defini le path avec une id zero
-    const URL = "{{ path('api_lieu_api', {id:0}) }}";
-    // récupère le lieu
-    let lieu = document.getElementById('sortie_lieu');
-    let ville = document.getElementById('ville');
-    let cp = document.getElementById('cp');
-    let rue = document.getElementById('rue');
-    let latitude = document.getElementById('latitude');
-    let longitude = document.getElementById('longitude');
-    lieu.addEventListener('change', function() {
-        //récupère l'id du lieu
-        let index = lieu.selectedIndex;
-
-        //remplace le 0 de l'url par l'index récupéré
-        let url = URL.replace('0', index);
-
-        $.ajax ({
-        url: url,
-        method : "GET",
-        dataType : "json",
-        })
-
-        .done(function(response){
-            console.log(response);
-            let data = JSON.stringify(response);
-            $ ("div#detail").append(data);
-        })
-        .fail(function(error) {
-            alert("La requête s'est terminée en échec. Infos : " + JSON.stringify(error));
-        })
+    </script>
+    <script>
+        document.getElementById(ville).style.display = none;
+    </script>
 
 
-
-    });
-</script>
-
-    {{ form_end(formSortie) }}
 
 
 {% endblock %}
