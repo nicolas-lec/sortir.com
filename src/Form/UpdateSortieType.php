@@ -78,8 +78,6 @@ class UpdateSortieType extends AbstractType
                 }
             ])
 
-            ->add('modifier', SubmitType::class, ['label' => 'Enregistrer'])
-            ->add('publier', SubmitType::class, ['label' => 'Publier'])
         ;
     }
 

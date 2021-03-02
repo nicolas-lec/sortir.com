@@ -254,6 +254,9 @@ class SortieController extends AbstractController
                 return $this->redirectToRoute("home_home");
             }
             $env = $request->request->get('modifier');
+            $this->addFlash('success', 'Votre sortie a été modifié avec succès !');
+            $etat = $em->getRepository('App:Etat')->find(['id'=>2]);
+            $sortie->setEtat($etat);
             $publier = 'publier';
 
             if($env === $publier){
@@ -261,6 +264,8 @@ class SortieController extends AbstractController
                 $sortie->setEtat($etat);
                 // Ajout d'un message de confirmation
                 $this->addFlash('success', 'Votre sortie a été publier avec succès !');
+                $em->flush();
+                $em->persist($sortie);
             }
             return $this->redirectToRoute("sortie_detailSortie",
                 ['id' => $sortie->getId()]);
