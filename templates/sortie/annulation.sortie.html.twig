@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création d'une sortie{% endblock %}
+
+{% block body %}
+
+    <h1>Annulation</h1>
+
+    {# read and display all flash messages #}
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {{ form_start(descriptionAnnul) }}
+
+    <div class="container">
+
+    <div class="form-group" >
+        {{ form_label((descriptionAnnul.descriptionAnnul)) }}
+        {{ form_widget(descriptionAnnul.descriptionAnnul, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(descriptionAnnul.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+    </div>
+
+    {{ form_end(descriptionAnnul) }}
+
+{% endblock %}

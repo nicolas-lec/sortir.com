@@ -11,7 +11,13 @@
         {% endfor %}
     {% endfor %}
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">Sortie {{ sortie.nom }}</h1>
+        {% if (sortie.descriptionAnnul == true)%}
+        <h1>LA SORTIE {{ sortie.nom }} EST ANNULEE</h1>
+        {% endif %}
+        {% if (sortie.descriptionAnnul == false)%}
+        <h1 class="display-4">Sortie {{ sortie.nom }} </h1>
+        {% endif %}
+
 
         <p class="lead" style="margin-top: 50px;">Durée de l'évènement: {{ sortie.duree }}</p>
         <p class="lead" style="margin-top: 50px;">Date de début: {{ sortie.dateHeureDebut |date("m/d/Y") }}</p>
@@ -20,20 +26,30 @@
         <p class="lead" style="margin-top: 50px;">Description de la sortie: {{ sortie.infoSortie }}</p>
         <p class="lead" style="margin-top: 50px;">Nombre Participant : {{ sortie.idparticipant| length }}/ {{ sortie.nbInscriptionsMax }}</p>
         <p class="lead" style="margin-top: 50px;">Lieu : {{ sortie.lieu.nom }}</p>
+        {% if (sortie.descriptionAnnul == true) %}
+        <p class="lead" style="margin-top: 50px;"><b>Description de l'annulation : {{ sortie.descriptionAnnul }}</b></p>
+        {% endif %}
     </div>
     {% if(sortie.idparticipant| length < sortie.nbInscriptionsMax) and app.user not in sortie.idparticipant and sortie.dateLimiteInscription  > date() %}
-
-    <a class="btn btn-lg btn-primary" href="{{ path('sortie_inscriptionSortie', {"id": sortie.id }) }}">S'inscrire</a>
+    {% if (sortie.descriptionAnnul == false)%}
+        <a class="btn btn-lg btn-primary" href="{{ path('sortie_inscriptionSortie', {"id": sortie.id }) }}">S'inscrire</a>
     {% endif %}
+    {% endif %}
+
+    {% if (sortie.descriptionAnnul == false)%}
     {% if(app.user in sortie.idparticipant) %}
     <a class="btn btn-lg btn-primary" href="{{ path('sortie_desinscriptionSortie', {"id": sortie.id }) }}">Se désinscrire</a>
     {% endif %}
-
-
-    {% if (app.user == sortie.organisateur) %}
-    <a class="btn btn-lg btn-primary" href="{{ path('sortie_deleteSortie', {"id": sortie.id }) }}">Annuler</a>
-        <a  class="btn btn-lg btn-primary" href="{{ path('sortie_edit', {"id": sortie.id }) }}">Modifier</a>
     {% endif %}
+
+    {% if (sortie.descriptionAnnul == false)%}
+    {% if (app.user == sortie.organisateur) %}
+            <a class="btn btn-lg btn-primary" href="{{ path('sortie_deleteSortie', {"id": sortie.id }) }}">Annuler</a>
+            <a  class="btn btn-lg btn-primary" href="{{ path('sortie_edit', {"id": sortie.id }) }}">Modifier</a>
+    {% endif %}
+    {% endif %}
+
+
     <div class="text-center">
         <h1 class="lead display-4">Liste des participants</h1>
     </div>

@@ -81,6 +81,13 @@ class Sortie
      */
     private $lieu;
 
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $descriptionAnnul;
+
+
     public function __construct()
     {
         $this->idparticipant = new ArrayCollection();
@@ -234,6 +241,18 @@ class Sortie
     public function setLieu(?Lieu $lieu): self
     {
         $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function getDescriptionAnnul(): ?string
+    {
+        return $this->descriptionAnnul;
+    }
+
+    public function setDescriptionAnnul(?string $descriptionAnnul): self
+    {
+        $this->descriptionAnnul = $descriptionAnnul;
 
         return $this;
     }
