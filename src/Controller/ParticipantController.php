@@ -103,16 +103,17 @@ class ParticipantController extends AbstractController
 
     public function update(Request $request, EntityManagerInterface $emi, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $user = $emi->getRepository(Participant::class)->find($this->getUser()->getId());
-        $formUser = $this->createForm(UpdateParticipantType::class, $user);
+        $user = $this->getUser();
+        $userPlain = $emi->getRepository(Participant::class)->find($this->getUser()->getId());
+        $formUser = $this->createForm(UpdateParticipantType::class, $userPlain);
         $formUser->handleRequest($request);
         $oldImage = $user -> getImageFileName();
         $filename =  $this -> getParameter('images_directory').'/'.$oldImage;
-        //dd($filename,$oldImage);
+        if ($formUser->get('mail')->getData() == $userPlain->getMail() && $formUser->get('mail')->getData() != null && $formUser->get('pseudo')->getData() == $userPlain->getPseudo() && $formUser->get('pseudo')->getData() != null) {
 
 
-        if ($formUser->isSubmitted() && $formUser->isValid()) {
-            //dd($filename,$oldImage);
+
+            if ($formUser->isSubmitted() && $formUser->isValid()) {
             if ($formUser->get('passwordPlain')->getData() !== null) {
                 $hashed = $passwordEncoder->encodePassword($user, $formUser->get('passwordPlain')->getData());
                 $user->setPassword($hashed);
@@ -120,7 +121,6 @@ class ParticipantController extends AbstractController
             }
 
                 $newImage = $formUser->get('imageUser')->getData();
-                //dd($filename,$oldImage);
 
                 //Tentative de remplacement de la photo de profil
                 if($newImage) {
@@ -143,14 +143,13 @@ class ParticipantController extends AbstractController
                         unlink($filename);
                     }
                 }
-
+            }
 
 
             $emi->persist($user);
             $emi->flush();
             return $this->redirectToRoute("participant_profil", ["id" => $user->getId()]);
         }
-
         return $this->render("participant/update.html.twig", [
             'formUser' => $formUser->createView(),
             'user' => $user

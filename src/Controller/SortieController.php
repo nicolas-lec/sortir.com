@@ -247,7 +247,8 @@ class SortieController extends AbstractController
         $sortie = $em->getRepository('App:Sortie')->findOneBy(['id'=> $id]);
         $formSortie = $this->createForm('App\Form\UpdateSortieType',$sortie);
         $formSortie->handleRequest($request);
-        if($formSortie->isSubmitted() && $formSortie->isValid())
+
+        if($formSortie->isSubmitted() && $formSortie->isValid() && $sortie->getEtat()->getId() == 2)
         {
             $user=$this->getUser();
             if($user == null || $user->getId() != $sortie->getOrganisateur()->getId()){
@@ -255,13 +256,20 @@ class SortieController extends AbstractController
             }
             $env = $request->request->get('modifier');
             $publier = 'publier';
-
+            $enregistrer = 'enregistrer';
             if($env === $publier){
                 $etat = $em->getRepository('App:Etat')->findOneBy(['id'=>1]);
                 $sortie->setEtat($etat);
                 // Ajout d'un message de confirmation
-                $this->addFlash('success', 'Votre sortie a été publier avec succès !');
+                $this->addFlash('success', 'Votre sortie a été modifiée et publier avec succès !');
+            }elseif($env === $enregistrer){
+                $etat = $em->getRepository('App:Etat')->findOneBy(['id'=>2]);
+                $sortie->setEtat($etat);
+                // Ajout d'un message de confirmation
+                $this->addFlash('success', 'Votre sortie a été modifiée et mis en brouillons avec succès !');
             }
+            $em->persist($sortie);
+            $em->flush();
             return $this->redirectToRoute("sortie_detailSortie",
                 ['id' => $sortie->getId()]);
         }
