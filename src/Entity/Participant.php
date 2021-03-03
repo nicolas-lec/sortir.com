@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"pseudo"})})
- * @UniqueEntity("pseudo", message="Ce pseudo est déja pris !", "mail", message="Ce mail est déja pris !")
+ * @UniqueEntity("pseudo", message="Ce pseudo est déja pris !")
  * @UniqueEntity("mail", message="Ce mail est déja pris !")
  */
 class Participant implements UserInterface
