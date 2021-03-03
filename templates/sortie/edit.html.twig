@@ -73,9 +73,10 @@
             <p id='longitude'> Longitude : </p>
 
         <div>
-            <button class="btn btn-primary" type="submit" name="envoyer" value="enregistrer">Enregistrer</button>
-            <button class="btn btn-primary" type="submit" name="envoyer" value="publier">Publier</button>
-            <a class="btn btn-lg btn-primary" href="{{ url('sortie_detailSortie', {'id': sortie.id}) }}">Annuler</a>
+            <button class="btn btn-primary" type="submit" name="modifier" value="modifier">Enregistrer</button>
+            <button class="btn btn-primary" type="submit" name="modifier" value="publier">Publier</button>
+            <a class="btn btn btn-primary" href="{{ path('sortie_deleteSortie', {"id": sortie.id }) }}">Annuler</a>
+            <a class="btn btn btn-primary" href="{{ url('sortie_detailSortie', {'id': sortie.id}) }}">Retour</a>
         </div>
 
 

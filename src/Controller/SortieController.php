@@ -254,19 +254,21 @@ class SortieController extends AbstractController
                 return $this->redirectToRoute("home_home");
             }
             $env = $request->request->get('modifier');
-            $this->addFlash('success', 'Votre sortie a été modifié avec succès !');
-            $etat = $em->getRepository('App:Etat')->find(['id'=>2]);
-            $sortie->setEtat($etat);
             $publier = 'publier';
-
+            $enregistrer = 'enregistrer';
             if($env === $publier){
                 $etat = $em->getRepository('App:Etat')->findOneBy(['id'=>1]);
                 $sortie->setEtat($etat);
                 // Ajout d'un message de confirmation
-                $this->addFlash('success', 'Votre sortie a été publier avec succès !');
-                $em->flush();
-                $em->persist($sortie);
+                $this->addFlash('success', 'Votre sortie a été modifiée et publier avec succès !');
+            }elseif($env === $enregistrer){
+                $etat = $em->getRepository('App:Etat')->findOneBy(['id'=>2]);
+                $sortie->setEtat($etat);
+                // Ajout d'un message de confirmation
+                $this->addFlash('success', 'Votre sortie a été modifiée et mis en brouillons avec succès !');
             }
+            $em->persist($sortie);
+            $em->flush();
             return $this->redirectToRoute("sortie_detailSortie",
                 ['id' => $sortie->getId()]);
         }
