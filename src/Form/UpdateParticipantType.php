@@ -83,7 +83,7 @@ class UpdateParticipantType extends AbstractType
                  'required' => false,
                  'constraints' => [
                      new File([
-                         'maxSize' => '10k',
+                         'maxSize' => '1000k',
                          'mimeTypes' => [
                              'image/jpeg',
                              'image/png',
