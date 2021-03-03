@@ -54,7 +54,7 @@ class UpdateSortieType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'min' => '1',
-                    'max' => '100'
+                    'max' => '5000'
                 ]
             ])
             ->add('duree', IntegerType::class, [

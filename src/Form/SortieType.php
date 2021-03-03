@@ -53,6 +53,10 @@ class SortieType extends AbstractType
             'label' => 'Nombre max d\'inscription :',
             'trim' => true,
             'required' => true,
+            'attr' => [
+                'min' => '1',
+                'max' => '1000'
+            ]
         ]);
 
         $builder ->add('infoSortie', TextareaType::class, [
