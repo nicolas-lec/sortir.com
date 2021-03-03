@@ -247,7 +247,8 @@ class SortieController extends AbstractController
         $sortie = $em->getRepository('App:Sortie')->findOneBy(['id'=> $id]);
         $formSortie = $this->createForm('App\Form\UpdateSortieType',$sortie);
         $formSortie->handleRequest($request);
-        if($formSortie->isSubmitted() && $formSortie->isValid())
+
+        if($formSortie->isSubmitted() && $formSortie->isValid() && $sortie->getEtat()->getId() == 2)
         {
             $user=$this->getUser();
             if($user == null || $user->getId() != $sortie->getOrganisateur()->getId()){

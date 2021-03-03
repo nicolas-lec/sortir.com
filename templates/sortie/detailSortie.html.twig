@@ -26,8 +26,15 @@
         <p class="lead" style="margin-top: 50px;">Description de la sortie: {{ sortie.infoSortie }}</p>
         <p class="lead" style="margin-top: 50px;">Nombre Participant : {{ sortie.idparticipant| length }}/ {{ sortie.nbInscriptionsMax }}</p>
         <p class="lead" style="margin-top: 50px;">Lieu : {{ sortie.lieu.nom }}</p>
+        <p class="lead" style="margin-top: 50px;"><b>Ville : {{ sortie.lieu.ville.nom }}</b></p>
+        <p class="lead" style="margin-top: 50px;"><b>Rue : {{ sortie.lieu.rue }}</b></p>
+        <p class="lead" style="margin-top: 50px;"><b>Code Postal : {{ sortie.lieu.ville.codePostal }}</b></p>
+        <p class="lead" style="margin-top: 50px;"><b>Latitude: {{ sortie.lieu.latitude }}</b></p>
+        <p class="lead" style="margin-top: 50px;"><b>Longitude: {{ sortie.lieu.longitude }}</b></p>
         {% if (sortie.descriptionAnnul == true) %}
         <p class="lead" style="margin-top: 50px;"><b>Description de l'annulation : {{ sortie.descriptionAnnul }}</b></p>
+
+
         {% endif %}
     </div>
     {% if(sortie.idparticipant| length < sortie.nbInscriptionsMax) and app.user not in sortie.idparticipant and sortie.dateLimiteInscription  > date() %}
