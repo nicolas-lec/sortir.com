@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"pseudo"})})
- * @UniqueEntity("pseudo", message="Ce pseudo est déja pris !", "mail", message="Ce mail est déja pris !")
+ * @UniqueEntity("pseudo", message="Ce pseudo est déja pris !")
  * @UniqueEntity("mail", message="Ce mail est déja pris !")
  */
 class Participant implements UserInterface
@@ -26,7 +26,8 @@ class Participant implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(name="pseudo",type="string", length=180, unique=true)
+     * @Assert\NotBlank()
      */
     private $pseudo;
 
@@ -52,7 +53,7 @@ class Participant implements UserInterface
     private $prenom;
 
     /**
-     * @ORM\Column(type="string", length=150, unique=true)
+     * @ORM\Column(name="mail",type="string", length=150, unique=true)
      */
     private $mail;
 

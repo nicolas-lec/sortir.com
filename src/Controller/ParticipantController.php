@@ -103,20 +103,26 @@ class ParticipantController extends AbstractController
 
     public function update(Request $request, EntityManagerInterface $emi, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $user = $emi->getRepository(Participant::class)->find($this->getUser()->getId());
-        $formUser = $this->createForm(UpdateParticipantType::class, $user);
+        $user = $this->getUser();
+        $userPlain = $emi->getRepository(Participant::class)->find($this->getUser()->getId());
+        $formUser = $this->createForm(UpdateParticipantType::class, $userPlain);
         $formUser->handleRequest($request);
-        if ($formUser->isSubmitted() && $formUser->isValid()) {
-            if ($formUser->get('passwordPlain')->getData() !== null) {
-                $hashed = $passwordEncoder->encodePassword($user, $formUser->get('passwordPlain')->getData());
-                $user->setPassword($hashed);
+        if ($formUser->get('mail')->getData() == $userPlain->getMail() && $formUser->get('mail')->getData() != null && $formUser->get('pseudo')->getData() == $userPlain->getPseudo() && $formUser->get('pseudo')->getData() != null) {
+            if ($formUser->isSubmitted() && $formUser->isValid()) {
+                if ($formUser->get('passwordPlain')->getData() !== null) {
+                    $hashed = $passwordEncoder->encodePassword($userPlain, $formUser->get('passwordPlain')->getData());
+                    $userPlain->setPassword($hashed);
+                }
+                $emi->flush();
+
+                /*
+                 $user->setImageFileName(
+                     new File($this->getParameter('images_directory').'/'.$user->getImageFileName())
+                 );
+                */
+                return $this->redirectToRoute("participant_profil", ["id" => $user->getId()]);
+
             }
-            $user->setImageFileName(
-                new File($this->getParameter('images_directory').'/'.$user->getImageFileName())
-            );
-            $emi->persist($user);
-            $emi->flush();
-            return $this->redirectToRoute("participant_profil", ["id" => $user->getId()]);
         }
         return $this->render("participant/update.html.twig", [
             'formUser' => $formUser->createView(),
