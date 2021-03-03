@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use http\Client\Curl\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -22,6 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route (name="participant_", path="participant/")
@@ -101,29 +103,52 @@ class ParticipantController extends AbstractController
      * @IsGranted("ROLE_USER", statusCode=404, message="L'accès est réservé au personne inscrite")
      */
 
-    public function update(Request $request, EntityManagerInterface $emi, UserPasswordEncoderInterface $passwordEncoder)
+    public function update(Request $request, EntityManagerInterface $emi,
+                           UserPasswordEncoderInterface $passwordEncoder,
+                            ValidatorInterface $validator)
     {
         $user = $this->getUser();
-        $userPlain = $emi->getRepository(Participant::class)->find($this->getUser()->getId());
-        $formUser = $this->createForm(UpdateParticipantType::class, $userPlain);
+        $formUser = $this->createForm(UpdateParticipantType::class, $user);
         $formUser->handleRequest($request);
-        if ($formUser->get('mail')->getData() == $userPlain->getMail() && $formUser->get('mail')->getData() != null && $formUser->get('pseudo')->getData() == $userPlain->getPseudo() && $formUser->get('pseudo')->getData() != null) {
+
             if ($formUser->isSubmitted() && $formUser->isValid()) {
                 if ($formUser->get('passwordPlain')->getData() !== null) {
-                    $hashed = $passwordEncoder->encodePassword($userPlain, $formUser->get('passwordPlain')->getData());
-                    $userPlain->setPassword($hashed);
+                    $hashed = $passwordEncoder->encodePassword($user, $formUser->get('passwordPlain')->getData());
+                    $user->setPassword($hashed);
                 }
-                $emi->flush();
 
-                /*
-                 $user->setImageFileName(
-                     new File($this->getParameter('images_directory').'/'.$user->getImageFileName())
-                 );
-                */
-                return $this->redirectToRoute("participant_profil", ["id" => $user->getId()]);
+                $error = false;
 
+                $pseudo = $formUser->get('pseudoPlain')->getData();
+                if(strcmp($pseudo, $user->getPseudo()) != 0 ){
+                    //pseudo différent
+                    $pTest = new Participant();
+                    $pTest->setPseudo($pseudo);
+                    $errors = $validator->validate($pTest);
+
+                    if(count($errors) == 0){
+                        $user->setPseudo($pseudo);
+                    }
+                    else{
+                        $error = true;
+                        $formUser->get('pseudoPlain')->addError(new FormError($errors[0]->getMessage()));
+                    }
+
+                }
+
+                if(!$error) {
+                    $emi->persist($user);
+                    $emi->flush();
+
+                    /*
+                     $user->setImageFileName(
+                         new File($this->getParameter('images_directory').'/'.$user->getImageFileName())
+                     );
+                    */
+                    return $this->redirectToRoute("participant_profil", ["id" => $user->getId()]);
+                }
             }
-        }
+
         return $this->render("participant/update.html.twig", [
             'formUser' => $formUser->createView(),
             'user' => $user
