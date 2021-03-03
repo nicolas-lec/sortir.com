@@ -6,21 +6,9 @@
 
 
 {% block body %}
-
-    <div class="container ">
-        <div class="row justify-content-end">
-            <p>Date du jour :&ensp;</p>
-
-            {{ 'now' | date('d/m/Y') }}
-
-        </div>
-        <div class="row justify-content-end">
-            <p>Participant:&ensp;</p>
-        </div>
-    </div>
-
+    <div class="home">
     <h1>Bienvenue sur sortir.com</h1>
-
+    </div>
     <div class="container-fluid">
         <div class="container">
             <div class="row">
@@ -32,7 +20,7 @@
                         </div>
                         <label for="sites">Sites:</label>
                         <select name="my_html_select_box">
-                            <option>SAINT-HERBLAIN</option>
+                            <option>AMSTERDAM</option>
                             <option>NANTES</option>
                             <option>PARIS</option>
                         </select>
@@ -40,7 +28,7 @@
 
                     {# barre de recherche #}
                     <div class="input-group rounded">
-                        <label for="search">Le nom de la sortie contient :</label>
+                        <label for="search"></label>
 
                         <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
                                aria-describedby="search-addon"/>
@@ -102,7 +90,7 @@
 
     <div class="container">
         <div class="row col-xl-col-12 mt-4">
-            <table>
+            <table class="table table-striped table-dark">
                 <style>
                     table, th, td {
                         padding: 10px;
@@ -115,7 +103,6 @@
                     <th scope="col">Nom</th>
                     <th scope="col">Date de la sortie</th>
                     <th scope="col">Clôture</th>
-                    <th scope="col">Inscrits/places</th>
                     <th scope="col">Etat</th>
                     <th scope="col">Inscrit</th>
                     <th scope="col">Organisateur</th>
@@ -126,18 +113,29 @@
                 {% for sortie in sorties %}
                     <tr>
                         <td>{{ sortie.nom }}</td>
-                        <td>{{ sortie.dateheuredebut|date("m/d/Y") }}</td>
-                        <td>{{ sortie.dateLimiteInscription|date("m/d/Y") }}</td>
-                        <td>{{ sortie.nbInscriptionsMax }}</td>
+                        <td>{{ sortie.dateheuredebut|date("m/d/Y H:i") }}</td>
+                        <td>{{ sortie.dateLimiteInscription|date("m/d/Y H:i") }}</td>
 
-                        <td>{% if sortie.etat == true %}
-                                <p>X</p>
-                            {% else %}
-                                <p>---</p>
-                            {% endif %}</td>
+                        <td>
+                            {% if sortie.etat.id == 1 %}
+                                <p>Publiée</p>
+                            {% endif %}
+                            {% if sortie.etat.id == 2 %}
+                                <p>Brouillon</p>
+                            {% endif %}
+                            {% if sortie.etat.id == 3 %}
+                                <p>Annulé</p>
+                            {% endif %}
+                            {% if sortie.etat.id == 5 %}
+                                <p>Evenement en cours</p>
+                            {% endif %}
+                            {% if sortie.etat.id == 6 %}
+                                <p>Evenement terminée</p>
+                            {% endif %}
+                        </td>
 
-                        <td>{# {{ sortie.id }} #}/{{ sortie.nbInscriptionsMax }}</td>
-                        <td></td>
+                        <td>{{ sortie.idparticipant|length }} / {{ sortie.nbInscriptionsMax }}</td>
+                        <td>{{ sortie.organisateur.nom }}</td>
                         <td><a href="{{ url('sortie_detailSortie', {'id': sortie.id}) }}">Afficher</a></td>
                     </tr>
 
@@ -146,13 +144,8 @@
             </table>
         </div>
 
-
-        <div>
-            <button type="button" class="btn- btn-primary mt-3">
-                Creer une sortie
-            </button>
-        </div>
     </div>
+
 
 {% endblock %}
 
