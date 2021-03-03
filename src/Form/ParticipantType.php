@@ -95,14 +95,14 @@ class ParticipantType extends AbstractType
             'required' => false,
             'constraints' => [
                 new File([
-                    'maxSize' => '10000k',
+                    'maxSize' => '1000k',
                     'mimeTypes' => [
                         'image/jpeg',
                         'image/png',
                         'image/svg+xml',
                     ],
                     'mimeTypesMessage' => 'Pour la photo de profil il faut que le fichier soit'.
-                    'sous l\'un des formats suivant : JPEG, PNG, SVG',
+                    ' sous l\'un des formats suivant : JPEG, PNG, SVG',
                 ])
             ],
         ]);

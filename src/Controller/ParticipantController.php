@@ -110,11 +110,38 @@ class ParticipantController extends AbstractController
         $user = $this->getUser();
         $formUser = $this->createForm(UpdateParticipantType::class, $user);
         $formUser->handleRequest($request);
+        $oldImage = $user -> getImageFileName();
+        $filename =  $this -> getParameter('images_directory').'/'.$oldImage;
+        //dd($filename,$oldImage);
 
-            if ($formUser->isSubmitted() && $formUser->isValid()) {
-                if ($formUser->get('passwordPlain')->getData() !== null) {
-                    $hashed = $passwordEncoder->encodePassword($user, $formUser->get('passwordPlain')->getData());
-                    $user->setPassword($hashed);
+
+        if ($formUser->isSubmitted() && $formUser->isValid()) {
+            if ($formUser->get('passwordPlain')->getData() !== null) {
+                $hashed = $passwordEncoder->encodePassword($user, $formUser->get('passwordPlain')->getData());
+                $user->setPassword($hashed);
+            }
+                $newImage = $formUser->get('imageUser')->getData();
+                //dd($filename,$oldImage);
+                //Tentative de remplacement de la photo de profil
+                if($newImage) {
+                    $originalFileName = pathinfo($newImage->getClientOriginalName(),PATHINFO_FILENAME);
+                    $safeFileName = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove;'
+                        .'Lower()', $originalFileName);
+                    $newFileName = $safeFileName.'-'.uniqid().'.'.$newImage->guessExtension();
+
+                    try {
+                        $newImage->move (
+                            $this -> getParameter('images_directory'),
+                            $newFileName
+                        );
+                    } catch (FileException $e) {
+
+                    }
+                    $user -> setImageFileName($newFileName);
+
+                    if (!empty($oldImage) && file_exists($filename)) {
+                        unlink($filename);
+                    }
                 }
 
                 $error = false;
