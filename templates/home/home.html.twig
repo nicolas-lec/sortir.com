@@ -7,7 +7,7 @@
 
 {% block body %}
     <div class="home">
-    <h1>Bienvenue sur sortir.com</h1>
+        <h1>Bienvenue sur sortir.com</h1>
     </div>
     <div class="container-fluid">
         <div class="container">
@@ -30,7 +30,8 @@
                     <div class="input-group rounded">
                         <label for="search"></label>
 
-                        <input type="text" id="myInput" class="form-control rounded" placeholder="Search" aria-label="Search"
+                        <input type="text" id="myInput" class="form-control rounded" placeholder="Search"
+                               aria-label="Search"
                                aria-describedby="search-addon" onkeyup="myFunction()"/>
                         <include class="icone-loupe"></include>
                     </div>
@@ -50,37 +51,25 @@
                     {# boutton chekbox #}
                     <div>
                         <div>
-                            <input type="checkbox" id="organisateur" name="orga">
+                            <input type="checkbox"  id="organisateur" name="organisateur" onclick="tri()">
                             <label for="orga">Sorties dont je suis l'organisateur/trice</label>
                         </div>
 
                         <div>
-                            <input type="checkbox" id="inscrit" name="orga">
+                            <input type="checkbox"  id="inscrit" name="inscrit" onclick="tri()">
                             <label for="orga">Sorties auquelles je me suis inscrit/e</label>
                         </div>
 
                         <div>
-                            <input type="checkbox" id="pInscrit" name="orga">
+                            <input type="checkbox"  id="pInscrit" name="pinscrit" onclick="tri()">
                             <label for="orga">Sorties auquelles je ne suis pas inscrit/e</label>
                         </div>
 
                         <div>
-                            <input type="checkbox" id="pass" name="orga">
+                            <input type="checkbox"  id="pass" name="pass" onclick="tri()">
                             <label for="orga">Sorties passées :</label>
                         </div>
 
-                    </div>
-                </div>
-
-                <div class="col-sm-1">
-                    <div>
-                        <button type="button" class="btn- btn-primary">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                 class="bi bi-search" viewBox="0 0 16 16">
-                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                            </svg>
-                            Rechercher
-                        </button>
                     </div>
                 </div>
 
@@ -90,12 +79,13 @@
 
     <div class="container">
         <div class="row col-xl-col-12 mt-4">
-            <table class="table table-striped table-dark" id="myTable" >
+            <table class="table table-striped table-dark" id="myTable">
                 <style>
                     table, th, td {
                         padding: 10px;
                         border: 1px solid black;
                         border-collapse: collapse;
+
                     }
                 </style>
                 <thead>
@@ -111,7 +101,9 @@
                 </tr>
                 </thead>
                 <tbody>
+
                 {% for sortie in sorties %}
+                    {% if(sortie.etat.id != 2 and sortie.etat.id != 6 ) %}
                     <tr>
                         <td>{{ sortie.nom }}</td>
                         <td>{{ sortie.dateheuredebut|date("m/d/Y H:i") }}</td>
@@ -136,7 +128,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if (app.user not in sortie.idparticipant)%}
+                            {% if (app.user not in sortie.idparticipant) %}
                                 <p>X</p>
                             {% endif %}
                             {% if(app.user in sortie.idparticipant) %}
@@ -144,10 +136,12 @@
                             {% endif %}
                         </td>
                         <td>{{ sortie.idparticipant|length }} / {{ sortie.nbInscriptionsMax }}</td>
-                        <td>{{ sortie.organisateur.nom }}</td>
+                        <td>
+                            <a href="{{ path('participant_profilParticipant',{'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.pseudo }}</a>
+                        </td>
                         <td><a href="{{ url('sortie_detailSortie', {'id': sortie.id}) }}">Afficher</a></td>
                     </tr>
-
+                    {% endif %}
                 {% endfor %}
                 </tbody>
             </table>
@@ -156,6 +150,140 @@
     </div>
 
     <script>
+        function tri() {
+            var filter, table, tr, td1, td2, td3, i, ck1, ck2, ck3, ck4, value;
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            //filter = input.value.toUpperCase();
+            ck1 = document.getElementById("organisateur");
+            ck2 = document.getElementById("inscrit");
+            ck3 = document.getElementById("pInscrit");
+            ck4 = document.getElementById("pass");
+            //td2 = tr[i].getElementsByTagName("td")[4];
+            //td3 = tr[i].getElementsByTagName("td")[3];
+            if (ck1.checked && !ck2.checked && !ck4.checked && !ck3.checked) {//&& !ck2.checked && !ck4.checked && !ck3.checked){
+                for (i = 0; i < tr.length; i++) {
+                    td1 = tr[i].getElementsByTagName("td")[6];
+                    if (td1) {
+                        value = td1.innerText;
+                        if (value === "{{app.user.pseudo}}") {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+            else if(ck1.checked && ck2.checked && !ck3.checked && ck4.checked){
+                for (i = 0; i < tr.length; i++) {
+                    td1 = tr[i].getElementsByTagName("td")[6];
+                    td2 = tr[i].getElementsByTagName("td")[4];
+                    td3 = tr[i].getElementsByTagName("td")[3];
+                    if (td1) {
+                        let v1 = td1.innerText;
+                        let v2 = td2.innerText;
+                        let v3 = td3.innerText;
+                        if (v1 === "{{app.user.pseudo}}" || v2==="O" || v3==="Evenement terminée") {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+            else if(ck1.checked && !ck2.checked && ck3.checked && !ck4.checked){
+                for (i = 0; i < tr.length; i++) {
+                    td1 = tr[i].getElementsByTagName("td")[6];
+                    td2 = tr[i].getElementsByTagName("td")[4];
+                    if (td1) {
+                        let v1 = td1.innerText;
+                        let v2 = td2.innerText;
+                        if (v1 === "{{app.user.pseudo}}" || v2==="X") {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+            else if(!ck1.checked && ck2.checked && !ck3.checked && ck4.checked){
+                for (i = 0; i < tr.length; i++) {
+                    td1 = tr[i].getElementsByTagName("td")[4];
+                    td2 = tr[i].getElementsByTagName("td")[3];
+                    if (td1) {
+                        let v1 = td1.innerText;
+                        let v2 = td2.innerText;
+                        if (v1 === "O" || v2==="Evenement terminé") {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+            else if(!ck1.checked && !ck2.checked && ck3.checked && !ck4.checked){
+                for (i = 0; i < tr.length; i++) {
+                    td1 = tr[i].getElementsByTagName("td")[4];
+                    if (td1) {
+                        let v1 = td1.innerText;
+                        if ( v1==="X") {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+            else if(!ck1.checked && ck2.checked && !ck3.checked && !ck4.checked){
+                for (i = 0; i < tr.length; i++) {
+                    td1 = tr[i].getElementsByTagName("td")[4];
+                    if (td1) {
+                        let v1 = td1.innerText;
+                        if ( v1==="O") {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+            else if(ck1.checked && !ck2.checked && !ck3.checked && !ck4.checked){
+                for (i = 0; i < tr.length; i++) {
+                    td1 = tr[i].getElementsByTagName("td")[6];
+                    if (td1) {
+                        let v1 = td1.innerText;
+                        if ( v1 === "{{app.user.pseudo}}") {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+            else if(ck1.checked && ck2.checked && !ck3.checked && ck4.checked){
+                for (i = 0; i < tr.length; i++) {
+                    td1 = tr[i].getElementsByTagName("td")[6];
+                    td2 = tr[i].getElementsByTagName("td")[5];
+                    td3 = tr[i].getElementsByTagName("td")[3];
+                    if (td1) {
+                        let v1 = td1.innerText;
+                        let v2 = td2.innerText;
+                        let v3 = td3.innerText;
+                        if (v1 === "{{app.user.pseudo}}" || v2==="X" || v3==="Evenement terminée") {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+        else
+            {
+                for (i = 0; i < tr.length; i++)
+                tr[i].style.display = "";
+            }
+        }
+
         function myFunction() {
             // Declare variables
             var input, filter, table, tr, td, i, txtValue;
@@ -163,7 +291,6 @@
             filter = input.value.toUpperCase();
             table = document.getElementById("myTable");
             tr = table.getElementsByTagName("tr");
-
             // Loop through all table rows, and hide those who don't match the search query
             for (i = 0; i < tr.length; i++) {
                 td = tr[i].getElementsByTagName("td")[0];
