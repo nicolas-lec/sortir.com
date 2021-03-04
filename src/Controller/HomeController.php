@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     /**
-     * @Route (name="home", path="", methods={"GET", "POST"})
+     * @Route (name="home", path="/home", methods={"GET", "POST"})
      */
     public function home (SortieRepository $sortieRepository)
     {
