@@ -7,51 +7,60 @@
     {% form_theme formUser 'bootstrap_4_layout.html.twig' %}
 
 
-        <div class="row" align="center">
-            <div class="col">
-                <h2>Mon profil</h2>
-                <hr>
+    <div class="row">
+        <div class="col">
+            <h2>Mon profil</h2>
+            <hr>
+        </div>
+    </div>
+
+    {{ form_start(formUser) }}
+    <div class="border-lg mb-5 box-shadow rounded">
+        <div class="container border-bottom box-shadow">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        {{ form_row(formUser.pseudoPlain) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_row(formUser.nom) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_row(formUser.prenom) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_row(formUser.mail) }}
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        {{ form_row(formUser.telephone) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_row(formUser.passwordPlain) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label((formUser.imageUser)) }}
+                        {{ form_widget(formUser.imageUser, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex align-items justify-content-center">
+                <div class="form-group mr-4">
+                    <button class="btn btn-info mt-4" type="submit">Confirmer</button>
+                </div>
+                <div class="form-group">
+                    <a class="btn btn-outline-danger mt-4" href="{{ path('participant_profil') }}">Annuler</a>
+                </div>
             </div>
         </div>
+    </div>
 
-        {{ form_start(formUser) }}
-
-        <div class="form-group" >
-            {{ form_row(formUser.pseudoPlain) }}
-        </div>
-
-        <div class="form-group" >
-            {{ form_row(formUser.nom) }}
-        </div>
-
-        <div class="form-group" >
-            {{ form_row(formUser.prenom) }}
-        </div>
-
-        <div class="form-group" >
-            {{ form_row(formUser.mail) }}
-        </div>
-
-        <div class="form-group" >
-            {{ form_row(formUser.telephone) }}
-        </div>
-
-        <div class="form-group" >
-            {{ form_row(formUser.passwordPlain) }}
-        </div>
-        <div class="form-group">
-            {{ form_label((formUser.imageUser)) }}
-            {{ form_widget(formUser.imageUser, {'attr': {'class': 'form-control'}}) }}
-        </div>
-
-        <div class="form-group" >
-            <button class="btn btn-light mt-4" type="submit">Confirmer</button>
-        </div>
-        <div class="form-group" >
-            <a class="btn btn-light mt-4" href="{{ path('participant_profil') }}">Annuler</a>
-        </div>
-
-        {{ form_end(formUser) }}
+    {{ form_end(formUser) }}
 
 
 {% endblock %}
