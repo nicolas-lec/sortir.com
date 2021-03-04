@@ -6,12 +6,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="https://comps.canstockphoto.fr/image-dessin-anim%C3%A9-cong%C3%A9-sortie-icon-vecteurs-eps_csp49240535.jpg">
-
     <title>{% block title %}{% endblock %}</title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/pricing/">
     <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/4.0/examples/pricing/pricing.css" rel="stylesheet">
+    {{ encore_entry_link_tags('app')}}
+
 </head>
 
 <body>
@@ -19,7 +20,7 @@
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
     <img src="assets/images/Untitled.png" width="60" height="60" class="d-inlin"/>
     {% if app.user is null %}
-        <h5 class="my-0 mr-md-auto font-weight-normal">Sortir.com</h5>
+        <h5 class="my-0 mr-md-auto font-weight-normal">Sortir ENI</h5>
     {% else %}
         <h5 class="my-0 mr-md-auto font-weight-normal">Bonjour, {{ app.user.pseudo }}</h5>
         {% if app.user.imageFileName is not null %}
@@ -27,20 +28,17 @@
         {% endif %}
     {% endif %}
 
-
-
-
     <nav class=" sticky-top my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark" href="{{ url('home_home') }}">Accueil</a>
         {% if app.user is not null %}
+            <a class="p-2 text-dark" href="{{ url('home_home') }}">Accueil</a>
             <a class="p-2 text-dark" href="{{ url('sortie_creationSortie') }}">Crée une sortie</a>
             <a class="p-2 text-dark" href="">Voir les sorties</a>
             <a class="p-2 text-dark" href="{{ url('participant_profil') }}">Profil</a>
             <a class="p-2 text-dark" href="{{ url('participant_inscription') }}">Inscription</a>
         {% endif %}
     </nav>
-    {% if app.user is null %}
-        <a class="btn btn-outline-info" href="/login">Se connecter</a>
+    {% if app.user is null%}
+        <a class="btn btn-outline-info" href="">Se connecter</a>
     {% else %}
         <a class="btn btn-outline-info" href="/logout">Se déconnecter</a>
     {% endif %}
@@ -55,14 +53,16 @@
 
 
     {% block body %}{% endblock %}
+    {% block footer %}
         <footer class="pt-4 my-md-5 pt-md-5 border-top" style="text-align: center" >
             <div class="row">
                 <div class="col-12 col-md">
                     <small class="d-block mb-3 text-muted">&copy; 2020-2021 Joachim | Yann | Marine | Nicolas</small>
                 </div>
-        </footer>
-    </div>
 
+    </div>
+</footer>
+    {% endblock %}
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
