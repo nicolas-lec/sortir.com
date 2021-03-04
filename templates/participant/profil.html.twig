@@ -13,7 +13,11 @@
             </div>
             <div class="second d-flex flex-row mt-2">
                 {% if app.user.imageFileName is not null %}
-                <div class="image mr-3"> <img src="{{ asset('build/uploads/imageUser/' ~ app.user.imageFileName) }}" width="150rem" height="150rem" class="rounded-circle img-thumbnail"></div>
+                    <div class="image mr-3"> <img src="{{ asset('build/uploads/imageUser/' ~ app.user.imageFileName) }}" width="150rem" height="150rem" class="rounded-circle img-thumbnail"></div>
+
+                {% else %}
+                    <img src="{{ asset ('build/images/Avatar-default.png') }}" width="150rem" height="150rem"
+                         class="rounded-circle img-thumbnail">
                 {% endif %}
                 <div class="">
                     {% if app.user.mail is not null %}
