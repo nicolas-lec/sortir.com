@@ -6,8 +6,8 @@
 
 
 {% block body %}
-    <div class="home">
-        <h1>Bienvenue sur sortir.com</h1>
+    <div class="home" align="center">
+        <h1>Bienvenue sur sortie ENI</h1>
     </div>
     <div class="container-fluid">
         <div class="container">
@@ -84,6 +84,7 @@
                     <th scope="col">NbInscrits</th>
                     <th scope="col">Organisateur</th>
                     <th scope="col">Action</th>
+                    <th scope="col">Participer</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -126,6 +127,18 @@
                             <a href="{{ path('participant_profilParticipant',{'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.pseudo }}</a>
                         </td>
                         <td><a href="{{ url('sortie_detailSortie', {'id': sortie.id}) }}">Afficher</a></td>
+                        <td>{% if(sortie.idparticipant| length < sortie.nbInscriptionsMax) and app.user not in sortie.idparticipant and sortie.dateLimiteInscription  > date() %}
+                                {% if (sortie.descriptionAnnul == false) %}
+                                    <a  href="{{ path('sortie_inscriptionSortie', {"id": sortie.id }) }}">S'inscrire</a>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if (sortie.descriptionAnnul == false) %}
+                                {% if(app.user in sortie.idparticipant) %}
+                                    <a class="text-center"href="{{ path('sortie_desinscriptionSortie', {"id": sortie.id }) }}">
+                                        Désinscrire</a>
+                                {% endif %}
+                            {% endif %}</td>
                     </tr>
                     {% endif %}
                 {% endfor %}

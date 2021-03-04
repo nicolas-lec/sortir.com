@@ -1,12 +1,7 @@
-body {
-    background-color: lightgray;
+#fondecran {
+    height: 50%;
+    position: absolute;
+    right: 0px;
+    bottom: 25px;
+    
 }
-
-imgfooter {
-    height: 5%;
-    width: 5%;
-    display: block;
-    margin-right: auto;
-    margin-left: auto ;
-}
-
