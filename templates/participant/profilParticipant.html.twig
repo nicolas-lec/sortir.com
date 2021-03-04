@@ -1,38 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bonjour,{{ p.nom }} {% endblock %}
+{% block title %}Bonjour,{{ p.nom}} {% endblock %}
 
 {% block body %}
     <div class="container d-flex justify-content-center ">
     <div class="card p-4 mt-2 ">
         <div class="first">
-            <h1 class="heading">{{ app.user.nom }} {{ app.user.prenom }}</h1>
+            <h1 class="heading">{{ p.nom }} {{ p.prenom }}</h1>
             <div class="time d-flex flex-row align-items-center justify-content-between mt-3">
-                <div class="d-flex align-items-center"><span class="hour ml-1">Pseudo : {{ app.user.pseudo }}</span>
+                <div class="d-flex align-items-center"><span class="hour ml-1">Pseudo : {{ p.pseudo }}</span>
                 </div>
             </div>
         </div>
         <div class="second d-flex flex-row mt-2">
 
             <div class="">
-                {% if app.user.mail is not null %}
+                {% if p.mail is not null %}
                     Mail :
-                    <a href="#" class="d-block"> {{ app.user.mail }}</a>
+                    <a href="#" class="d-block"> {{ p.mail }}</a>
                 {% endif %}
-                {% if app.user.telephone is not null %}
+                {% if p.telephone is not null %}
                     Numéro de Téléphone :
-                    <a href="#" class="d-block"> {{ app.user.telephone }}</a>
+                    <a href="#" class="d-block"> {{ p.telephone }}</a>
                 {% endif %}
                 Campus :
-                <a href="#" class="d-block"> {{ app.user.site.nom }} </a>
+                <a href="#" class="d-block"> {{ p.site.nom }} </a>
             </div>
         </div>
         <hr class="line-color">
-        {% if app.user.id == p.id and app.user.id() %}
-            <div class="col text-center">
-                <a class="btn btn-info" href="{{ url('participant_update') }}">Modifier</a>
-            </div>
-        {% endif %}
     </div>
     </div>
 {% endblock %}

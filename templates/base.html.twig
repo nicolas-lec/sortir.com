@@ -39,7 +39,7 @@
         <a class="btn btn-outline-info" href="/login">Se connecter</a>
     {% else %}
         <div class="d-flex flex-column">
-            <div class="p-2">
+            <div class="p-2 mx-auto">
                 {% if app.user.imageFileName is not null %}
                     <img src="{{ asset('build/uploads/imageUser/' ~ app.user.imageFileName) }}" width="60" height="60"
                          class="rounded-circle img-thumbnail">
