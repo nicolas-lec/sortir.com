@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon"
-          href="{{ asset ('build/images/Untitled.png') }}">
+    <link rel="icon" href="https://comps.canstockphoto.fr/image-dessin-anim%C3%A9-cong%C3%A9-sortie-icon-vecteurs-eps_csp49240535.jpg">
 
     <title>{% block title %}{% endblock %}</title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -25,10 +24,13 @@
         <h5 class="my-0 mr-md-auto font-weight-normal">Bonjour, {{ app.user.pseudo }}</h5>
     {% endif %}
 
+
+
     <nav class=" sticky-top my-2 my-md-0 mr-md-3">
         <a class="p-2 text-dark" href="{{ url('home_home') }}">Accueil</a>
         {% if app.user is not null %}
             <a class="p-2 text-dark" href="{{ url('sortie_creationSortie') }}">Crée une sortie</a>
+            <a class="p-2 text-dark" href="{{ url('sortie_organisateur') }}">Voir mes brouillons</a>
             <a class="p-2 text-dark" href="{{ url('participant_profil') }}">Profil</a>
             {% if is_granted ('ROLE_ADMIN') %}
                 <a class="p-2 text-dark" href="{{ url('participant_inscription') }}">Inscription</a>
