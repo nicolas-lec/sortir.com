@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Data\SearchData;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -34,6 +36,21 @@ class SortieRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('sortie')
             ->where('sortie.id = :id')->setParameter('id', $id)
             ->getQuery()->getSingleResult();
+    }
+
+    public function getByIdOrganisateur($user,$etat){
+
+            return $this->createQueryBuilder('s')
+                ->Where('s.organisateur = :user')
+                ->setParameter('user', $user)
+                ->andWhere('s.etat = :etat')
+                ->setParameter('etat',$etat)
+                ->getQuery()
+                ->getResult()
+                ;
+
+
+
     }
 
     public function findSearch(SearchData $search)
