@@ -201,7 +201,36 @@
                     }
                 }
             }
-
+            else if(ck1.checked && !ck2.checked && ck3.checked && !ck4.checked){
+                for (i = 0; i < tr.length; i++) {
+                    td1 = tr[i].getElementsByTagName("td")[6];
+                    td2 = tr[i].getElementsByTagName("td")[4];
+                    if (td1) {
+                        let v1 = td1.innerText;
+                        let v2 = td2.innerText;
+                        if (v1 === "{{app.user.pseudo}}" || v2==="X") {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+            else if(!ck1.checked && ck2.checked && !ck3.checked && ck4.checked){
+                for (i = 0; i < tr.length; i++) {
+                    td1 = tr[i].getElementsByTagName("td")[4];
+                    td2 = tr[i].getElementsByTagName("td")[3];
+                    if (td1) {
+                        let v1 = td1.innerText;
+                        let v2 = td2.innerText;
+                        if (v1 === "O" || v2==="Evenement terminé") {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
 
         }
 
