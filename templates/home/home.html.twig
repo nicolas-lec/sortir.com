@@ -51,22 +51,22 @@
                     {# boutton chekbox #}
                     <div>
                         <div>
-                            <input type="checkbox" id="organisateur" name="organisateur" onchange="tri()">
+                            <input type="checkbox" checked id="organisateur" name="organisateur" onclick="tri()">
                             <label for="orga">Sorties dont je suis l'organisateur/trice</label>
                         </div>
 
                         <div>
-                            <input type="checkbox" id="inscrit" name="inscrit" onchange="tri()">
+                            <input type="checkbox" checked id="inscrit" name="inscrit" onclick="tri()">
                             <label for="orga">Sorties auquelles je me suis inscrit/e</label>
                         </div>
 
                         <div>
-                            <input type="checkbox" id="pInscrit" name="pinscrit" onchange="tri()">
+                            <input type="checkbox" checked id="pInscrit" name="pinscrit" onclick="tri()">
                             <label for="orga">Sorties auquelles je ne suis pas inscrit/e</label>
                         </div>
 
                         <div>
-                            <input type="checkbox" id="pass" name="pass" onchange="tri()">
+                            <input type="checkbox" checked id="pass" name="pass" onclick="tri()">
                             <label for="orga">Sorties passées :</label>
                         </div>
 
@@ -288,6 +288,11 @@
                         }
                     }
                 }
+            }
+        else
+            {
+                for (i = 0; i < tr.length; i++)
+                tr[i].style.display = "";
             }
         }
 
