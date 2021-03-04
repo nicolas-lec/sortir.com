@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="https://comps.canstockphoto.fr/image-dessin-anim%C3%A9-cong%C3%A9-sortie-icon-vecteurs-eps_csp49240535.jpg">
+    <link rel="icon"
+          href="{{ asset ('build/images/Untitled.png') }}">
 
     <title>{% block title %}{% endblock %}</title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -17,32 +18,38 @@
 <body>
 {% block top %}
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-    <img src="assets/images/Untitled.png" width="60" height="60" class="d-inlin"/>
+    <img src="{{ asset ('build/images/Untitled.png') }}" width="80" height="90" class="d-inlin"/>
     {% if app.user is null %}
         <h5 class="my-0 mr-md-auto font-weight-normal">Sortir.com</h5>
     {% else %}
         <h5 class="my-0 mr-md-auto font-weight-normal">Bonjour, {{ app.user.pseudo }}</h5>
-        {% if app.user.imageFileName is not null %}
-            <img src="{{ asset('build/uploads/imageUser/' ~ app.user.imageFileName) }}" width="80" height="80" class="rounded-circle img-thumbnail">
-        {% endif %}
     {% endif %}
-
-
-
 
     <nav class=" sticky-top my-2 my-md-0 mr-md-3">
         <a class="p-2 text-dark" href="{{ url('home_home') }}">Accueil</a>
         {% if app.user is not null %}
             <a class="p-2 text-dark" href="{{ url('sortie_creationSortie') }}">Crée une sortie</a>
-            <a class="p-2 text-dark" href="">Voir les sorties</a>
             <a class="p-2 text-dark" href="{{ url('participant_profil') }}">Profil</a>
-            <a class="p-2 text-dark" href="{{ url('participant_inscription') }}">Inscription</a>
+            {% if is_granted ('ROLE_ADMIN') %}
+                <a class="p-2 text-dark" href="{{ url('participant_inscription') }}">Inscription</a>
+            {% endif %}
         {% endif %}
     </nav>
     {% if app.user is null %}
         <a class="btn btn-outline-info" href="/login">Se connecter</a>
     {% else %}
-        <a class="btn btn-outline-info" href="/logout">Se déconnecter</a>
+        <div class="d-flex flex-column">
+            <div class="p-2">
+                {% if app.user.imageFileName is not null %}
+                    <img src="{{ asset('build/uploads/imageUser/' ~ app.user.imageFileName) }}" width="60" height="60"
+                         class="rounded-circle img-thumbnail">
+                {% else %}
+                    <img src="{{ asset ('build/images/Avatar-default.png') }}" width="60rem" height="60rem"
+                         class="rounded-circle img-thumbnail">
+                {% endif %}
+            </div>
+            <a href="/logout">Se déconnecter</a>
+        </div>
     {% endif %}
 
 </div>
@@ -55,13 +62,13 @@
 
 
     {% block body %}{% endblock %}
-        <footer class="pt-4 my-md-5 pt-md-5 border-top" style="text-align: center" >
-            <div class="row">
-                <div class="col-12 col-md">
-                    <small class="d-block mb-3 text-muted">&copy; 2020-2021 Joachim | Yann | Marine | Nicolas</small>
-                </div>
-        </footer>
-    </div>
+    <footer class="pt-4 my-md-5 pt-md-5 border-top" style="text-align: center">
+        <div class="row">
+            <div class="col-12 col-md">
+                <small class="d-block mb-3 text-muted">&copy; 2020-2021 Joachim | Yann | Marine | Nicolas</small>
+            </div>
+    </footer>
+</div>
 
 
 <!-- Bootstrap core JavaScript
