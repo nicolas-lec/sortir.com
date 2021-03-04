@@ -2,7 +2,7 @@
 
 {% block title %} Détail d'une sortie {% endblock %}
 
-{% block top %}
+{% block body %}
     {% for type, messages in app.flashes %}
         {% for message in messages %}
             <div class="alert alert-{{ type }}" role="alert">
@@ -11,52 +11,62 @@
         {% endfor %}
     {% endfor %}
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        {% if (sortie.descriptionAnnul == true)%}
-        <h1>LA SORTIE {{ sortie.nom }} EST ANNULEE</h1>
-        {% endif %}
-        {% if (sortie.descriptionAnnul == false)%}
-        <h1 class="display-4">Sortie {{ sortie.nom }} </h1>
-        {% endif %}
-
-
-        <p class="lead" style="margin-top: 50px;">Durée de l'évènement: {{ sortie.duree }}</p>
-        <p class="lead" style="margin-top: 50px;">Date de début: {{ sortie.dateHeureDebut |date("m/d/Y") }}</p>
-        <p class="lead" style="margin-top: 50px;">Date Limite d'inscription: {{ sortie.dateLimiteInscription |date("m/d/Y") }}</p>
-        <p class="lead" style="margin-top: 50px;">Nombre maximum d'inscrit: {{ sortie.nbInscriptionsMax }}</p>
-        <p class="lead" style="margin-top: 50px;">Description de la sortie: {{ sortie.infoSortie }}</p>
-        <p class="lead" style="margin-top: 50px;">Nombre Participant : {{ sortie.idparticipant| length }}/ {{ sortie.nbInscriptionsMax }}</p>
-        <p class="lead" style="margin-top: 50px;">Lieu : {{ sortie.lieu.nom }}</p>
-        <p class="lead" style="margin-top: 50px;"><b>Ville : {{ sortie.lieu.ville.nom }}</b></p>
-        <p class="lead" style="margin-top: 50px;"><b>Rue : {{ sortie.lieu.rue }}</b></p>
-        <p class="lead" style="margin-top: 50px;"><b>Code Postal : {{ sortie.lieu.ville.codePostal }}</b></p>
-        <p class="lead" style="margin-top: 50px;"><b>Latitude: {{ sortie.lieu.latitude }}</b></p>
-        <p class="lead" style="margin-top: 50px;"><b>Longitude: {{ sortie.lieu.longitude }}</b></p>
         {% if (sortie.descriptionAnnul == true) %}
-        <p class="lead" style="margin-top: 50px;"><b>Description de l'annulation : {{ sortie.descriptionAnnul }}</b></p>
+            <h1>LA SORTIE {{ sortie.nom }} EST ANNULEE</h1>
+        {% endif %}
+        {% if (sortie.descriptionAnnul == false) %}
+            <h1 class="display-4">Sortie {{ sortie.nom }} </h1>
+        {% endif %}
 
+        <div class="row">
+            <div class="col ">
 
+                <p class="lead text-left" style="margin-top: 50px;"><b>Durée de l'évènement:</b> {{ sortie.duree }}</p>
+                <p class="lead text-left" style="margin-top: 50px;"><b>Date de début: </b>{{ sortie.dateHeureDebut |date("m/d/Y") }}</p>
+                <p class="lead text-left" style="margin-top: 50px;"><b>Date Limite
+                    d'inscription:</b> {{ sortie.dateLimiteInscription |date("m/d/Y") }}</p>
+                <p class="lead text-left" style="margin-top: 50px;"><b>Nombre maximum d'inscrit:</b> {{ sortie.nbInscriptionsMax }}</p>
+                <p class="lead text-left" style="margin-top: 50px;"><b>Description de la sortie: </b>{{ sortie.infoSortie }}</p>
+                <p class="lead text-left" style="margin-top: 50px;"><b>Nombre Participant :</b> {{ sortie.idparticipant| length }}
+                    / {{ sortie.nbInscriptionsMax }}</p>
+
+            </div>
+            <div class="col">
+                <p class="lead text-left" style="margin-top: 50px;"><b>Lieu : </b>{{ sortie.lieu.nom }}</p>
+                <p class="lead text-left" style="margin-top: 50px;"><b>Ville : </b> {{ sortie.lieu.ville.nom }}</p>
+                <p class="lead text-left" style="margin-top: 50px;"><b>Rue : </b> {{ sortie.lieu.rue }}</p>
+                <p class="lead text-left" style="margin-top: 50px;"><b>Code Postal : </b> {{ sortie.lieu.ville.codePostal }}</p>
+                <p class="lead text-left" style="margin-top: 50px;"><b>Latitude: </b>{{ sortie.lieu.latitude }}</p>
+                <p class="lead text-left" style="margin-top: 50px;"><b>Longitude: </b>{{ sortie.lieu.longitude }}</p>
+            </div>
+            {% if (sortie.descriptionAnnul == true) %}
+                <p class="lead" style="margin-top: 50px;"><b>Description de l'annulation
+                        : {{ sortie.descriptionAnnul }}</b></p>
+            {% endif %}
+        </div>
+        {% if(sortie.idparticipant| length < sortie.nbInscriptionsMax) and app.user not in sortie.idparticipant and sortie.dateLimiteInscription  > date() %}
+            {% if (sortie.descriptionAnnul == false) %}
+                <a class="btn btn-lg btn-info" href="{{ path('sortie_inscriptionSortie', {"id": sortie.id }) }}">S'inscrire</a>
+            {% endif %}
+        {% endif %}
+
+        {% if (sortie.descriptionAnnul == false) %}
+            {% if(app.user in sortie.idparticipant) %}
+                <a class="btn btn-lg btn-info" href="{{ path('sortie_desinscriptionSortie', {"id": sortie.id }) }}">Se
+                    désinscrire</a>
+            {% endif %}
+        {% endif %}
+
+        {% if (sortie.descriptionAnnul == false) %}
+            {% if (app.user == sortie.organisateur) %}
+                <a class="btn btn-lg btn-outline-danger" href="{{ path('sortie_deleteSortie', {"id": sortie.id }) }}">Annuler</a>
+                {% if(sortie.etat.id == 2) %}
+                    <a class="btn btn-lg btn-outline-info"
+                       href="{{ path('sortie_edit', {"id": sortie.id }) }}">Modifier</a>
+                {% endif %}
+            {% endif %}
         {% endif %}
     </div>
-    {% if(sortie.idparticipant| length < sortie.nbInscriptionsMax) and app.user not in sortie.idparticipant and sortie.dateLimiteInscription  > date() %}
-    {% if (sortie.descriptionAnnul == false)%}
-        <a class="btn btn-lg btn-primary" href="{{ path('sortie_inscriptionSortie', {"id": sortie.id }) }}">S'inscrire</a>
-    {% endif %}
-    {% endif %}
-
-    {% if (sortie.descriptionAnnul == false)%}
-    {% if(app.user in sortie.idparticipant) %}
-    <a class="btn btn-lg btn-primary" href="{{ path('sortie_desinscriptionSortie', {"id": sortie.id }) }}">Se désinscrire</a>
-    {% endif %}
-    {% endif %}
-
-    {% if (sortie.descriptionAnnul == false)%}
-    {% if (app.user == sortie.organisateur) %}
-            <a class="btn btn-lg btn-primary" href="{{ path('sortie_deleteSortie', {"id": sortie.id }) }}">Annuler</a>
-        {% if(sortie.etat.id == 2) %}
-            <a  class="btn btn-lg btn-primary" href="{{ path('sortie_edit', {"id": sortie.id }) }}">Modifier</a>
-        {% endif %}
-    {% endif %}
-    {% endif %}
 
 
     <div class="text-center">
@@ -75,7 +85,9 @@
             {% if sortie.idparticipant is not empty %}
                 {% for p in sortie.idparticipant %}
                     <tr class="text-center">
-                        <td scope="row" ><a href="{{ path('participant_profilParticipant',{'id': p.id}) }}"> {{ p.pseudo }}</a></td>
+                        <td scope="row"><a
+                                    href="{{ path('participant_profilParticipant',{'id': p.id}) }}"> {{ p.pseudo }}</a>
+                        </td>
                         <td scope="row"> {{ p.prenom }} {{ p.nom }}</td>
                     </tr>
                 {% else %}

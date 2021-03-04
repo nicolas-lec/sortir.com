@@ -1,25 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bonjour,{{ p.nom}} {% endblock %}
+{% block title %}Bonjour,{{ p.nom }} {% endblock %}
 
 {% block body %}
-    <div class="card">
-        <div class="card-body row justify-content-center">
-            <div class="col-auto text-center">
-                <h1 class="d-block">{{ p.nom }} {{ p.prenom }}</h1>
-                <p class="title d-block"><b>{{ p.pseudo }}</b></p>
-                {% if app.user.mail is not null %}
-                    <a href="#" class="d-block"><i class="fas fa-at"></i> {{ p.mail }}</a>
-                {% endif %}
-                {% if app.user.telephone is not null %}
-                    <a href="#" class="d-block"><i class="fas fa-phone"></i> {{ p.telephone }}</a>
-                {% endif %}
+    <div class="container d-flex justify-content-center ">
+    <div class="card p-4 mt-2 ">
+        <div class="first">
+            <h1 class="heading">{{ app.user.nom }} {{ app.user.prenom }}</h1>
+            <div class="time d-flex flex-row align-items-center justify-content-between mt-3">
+                <div class="d-flex align-items-center"><span class="hour ml-1">Pseudo : {{ app.user.pseudo }}</span>
+                </div>
             </div>
         </div>
+        <div class="second d-flex flex-row mt-2">
+
+            <div class="">
+                {% if app.user.mail is not null %}
+                    Mail :
+                    <a href="#" class="d-block"> {{ app.user.mail }}</a>
+                {% endif %}
+                {% if app.user.telephone is not null %}
+                    Numéro de Téléphone :
+                    <a href="#" class="d-block"> {{ app.user.telephone }}</a>
+                {% endif %}
+                Campus :
+                <a href="#" class="d-block"> {{ app.user.site.nom }} </a>
+            </div>
+        </div>
+        <hr class="line-color">
         {% if app.user.id == p.id and app.user.id() %}
             <div class="col text-center">
                 <a class="btn btn-info" href="{{ url('participant_update') }}">Modifier</a>
             </div>
         {% endif %}
+    </div>
     </div>
 {% endblock %}

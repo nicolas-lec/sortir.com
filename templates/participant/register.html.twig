@@ -4,10 +4,9 @@
 
 {% block body %}
 
-    {% form_theme participantForm 'bootstrap_4_layout.html.twig' %}
 
 
-    <h1>Inscription</h1>
+    <h1>Inscription d'un nouvel utilisateur</h1>
 
     {# read and display all flash messages #}
     {% for type, messages in app.flashes %}
@@ -19,60 +18,63 @@
     {% endfor %}
 
     {{ form_start(participantForm) }}
+    <div class="border-lg mb-5 box-shadow rounded">
+        <div class="container border-bottom box-shadow">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        {{ form_label((participantForm.pseudo)) }}
+                        {{ form_widget(participantForm.pseudo, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label((participantForm.admin)) }}
+                        {{ form_widget(participantForm.admin, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label((participantForm.plainPassword)) }}
+                        {{ form_widget(participantForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+                    </div>
 
-    <div class="container">
+                    <div class="form-group">
+                        {{ form_label((participantForm.nom)) }}
+                        {{ form_widget(participantForm.nom, {'attr': {'class': 'form-control'}}) }}
+                    </div>
 
-        <div class="form-group" >
-            {{ form_label((participantForm.pseudo)) }}
-            {{ form_widget(participantForm.pseudo, {'attr': {'class': 'form-control'}}) }}
-        </div>
+                    <div class="form-group">
+                        {{ form_label((participantForm.prenom)) }}
+                        {{ form_widget(participantForm.prenom, {'attr': {'class': 'form-control'}}) }}
+                    </div>
 
-        <div class="form-group">
-            {{ form_label((participantForm.admin)) }}
-            {{ form_widget(participantForm.admin, {'attr': {'class': 'form-control'}}) }}
-        </div>
+                    <div class="form-group">
+                        {{ form_label((participantForm.telephone)) }}
+                        {{ form_widget(participantForm.telephone, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        {{ form_label((participantForm.mail)) }}
+                        {{ form_widget(participantForm.mail, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label((participantForm.actif)) }}
+                        {{ form_widget(participantForm.actif, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label((participantForm.site)) }}
+                        {{ form_widget(participantForm.site, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label((participantForm.imageUser)) }}
+                        {{ form_widget(participantForm.imageUser, {'attr': {'class': 'form-control'}}) }}
+                    </div>
 
-        <div class="form-group">
-            {{ form_label((participantForm.plainPassword)) }}
-            {{ form_widget(participantForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
-        </div>
+                    <div class="form-group">
+                        {{ form_widget(participantForm.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+                    </div>
+                </div>
+            </div>
 
-        <div class="form-group">
-            {{ form_label((participantForm.nom)) }}
-            {{ form_widget(participantForm.nom, {'attr': {'class': 'form-control'}}) }}
         </div>
-
-        <div class="form-group">
-            {{ form_label((participantForm.prenom)) }}
-            {{ form_widget(participantForm.prenom, {'attr': {'class': 'form-control'}}) }}
-        </div>
-
-        <div class="form-group">
-            {{ form_label((participantForm.telephone)) }}
-            {{ form_widget(participantForm.telephone, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_label((participantForm.mail)) }}
-            {{ form_widget(participantForm.mail, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_label((participantForm.actif)) }}
-            {{ form_widget(participantForm.actif, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_label((participantForm.site)) }}
-            {{ form_widget(participantForm.site, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_label((participantForm.imageUser)) }}
-            {{ form_widget(participantForm.imageUser, {'attr': {'class': 'form-control'}}) }}
-        </div>
-
-        <div class="form-group">
-            {{ form_widget(participantForm.submit, {'attr': {'class': 'btn btn-primary'}}) }}
-        </div>
-
-
     </div>
 
     {{ form_end(participantForm) }}

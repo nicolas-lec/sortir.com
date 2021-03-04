@@ -84,13 +84,14 @@ class ParticipantType extends AbstractType
         $builder->add('site', EntityType::class,
             [
             'class' => Site::class,
+            'label' => 'Site : ',
             'choice_label' => 'nom',
             'query_builder' => function (EntityRepository $repository) {
                 return $repository->createQueryBuilder('site')->orderBy('site.nom');
             }
         ]);
         $builder->add('imageUser', FileType::class, [
-            'label' => 'Photo de profil',
+            'label' => 'Photo de profil :',
             'mapped' => false,
             'required' => false,
             'constraints' => [
