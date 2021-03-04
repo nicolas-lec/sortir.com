@@ -18,12 +18,6 @@
                         <div>
                             <h5>Filtrer les sorties :</h5>
                         </div>
-                        <label for="sites">Sites:</label>
-                        <select name="my_html_select_box">
-                            <option>AMSTERDAM</option>
-                            <option>NANTES</option>
-                            <option>PARIS</option>
-                        </select>
                     </div>
 
                     {# barre de recherche #}
@@ -36,14 +30,6 @@
                         <include class="icone-loupe"></include>
                     </div>
                     </br>
-                    <form>
-                        <div class="row">
-                            <label for="DebutSortie">&emsp;Entre :&ensp;</label>
-                            <input type="date" id="DSortie" name="DebSortie">
-                            <label for="finSortie">&ensp;Et :&ensp;</label>
-                            <input type="date" id="SSortie" name="finSorie">
-                        </div>
-                    </form>
                 </div>
 
                 <div class="col-sm-5">
@@ -98,6 +84,7 @@
                     <th scope="col">NbInscrits</th>
                     <th scope="col">Organisateur</th>
                     <th scope="col">Action</th>
+                    <th scope="col">Participer</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -140,6 +127,18 @@
                             <a href="{{ path('participant_profilParticipant',{'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.pseudo }}</a>
                         </td>
                         <td><a href="{{ url('sortie_detailSortie', {'id': sortie.id}) }}">Afficher</a></td>
+                        <td>{% if(sortie.idparticipant| length < sortie.nbInscriptionsMax) and app.user not in sortie.idparticipant and sortie.dateLimiteInscription  > date() %}
+                                {% if (sortie.descriptionAnnul == false) %}
+                                    <a  href="{{ path('sortie_inscriptionSortie', {"id": sortie.id }) }}">S'inscrire</a>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if (sortie.descriptionAnnul == false) %}
+                                {% if(app.user in sortie.idparticipant) %}
+                                    <a class="text-center"href="{{ path('sortie_desinscriptionSortie', {"id": sortie.id }) }}">
+                                        Désinscrire</a>
+                                {% endif %}
+                            {% endif %}</td>
                     </tr>
                     {% endif %}
                 {% endfor %}
@@ -263,13 +262,44 @@
             else if(ck1.checked && ck2.checked && !ck3.checked && ck4.checked){
                 for (i = 0; i < tr.length; i++) {
                     td1 = tr[i].getElementsByTagName("td")[6];
-                    td2 = tr[i].getElementsByTagName("td")[5];
+                    td2 = tr[i].getElementsByTagName("td")[4];
                     td3 = tr[i].getElementsByTagName("td")[3];
                     if (td1) {
                         let v1 = td1.innerText;
                         let v2 = td2.innerText;
                         let v3 = td3.innerText;
                         if (v1 === "{{app.user.pseudo}}" || v2==="X" || v3==="Evenement terminée") {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+            else if(ck1.checked && ck2.checked && !ck3.checked && !ck4.checked){
+                for (i = 0; i < tr.length; i++) {
+                    td1 = tr[i].getElementsByTagName("td")[6];
+                    td2 = tr[i].getElementsByTagName("td")[4];
+                    if (td1) {
+                        let v1 = td1.innerText;
+                        let v2 = td2.innerText;
+
+                        if (v1 === "{{app.user.pseudo}}" || v2==="X" ) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+            else if(!ck1.checked && !ck2.checked && ck3.checked && ck4.checked){
+                for (i = 0; i < tr.length; i++) {
+                    td1 = tr[i].getElementsByTagName("td")[4];
+                    td2 = tr[i].getElementsByTagName("td")[3];
+                    if (td1) {
+                        let v1 = td1.innerText;
+                        let v2 = td2.innerText;
+                        if ( v1 === "X" || v2 === "Evennement terminer" ) {
                             tr[i].style.display = "";
                         } else {
                             tr[i].style.display = "none";

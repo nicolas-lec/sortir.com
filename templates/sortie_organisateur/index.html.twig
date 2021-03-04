@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes sorties{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row col-xl-col-12 mt-4">
+        <table class="table table-striped table-dark" id="myTable">
+            <style>
+                table, th, td {
+                    padding: 10px;
+                    border: 1px solid black;
+                    border-collapse: collapse;
+
+                }
+            </style>
+            <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Date de la sortie</th>
+                <th scope="col">Clôture</th>
+                <th scope="col">Etat</th>
+                <th scope="col">Inscrit</th>
+                <th scope="col">NbInscrits</th>
+                <th scope="col">Organisateur</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for sortie in sorties %}
+                    <tr>
+                        <td>{{ sortie.nom }}</td>
+                        <td>{{ sortie.dateheuredebut|date("m/d/Y H:i") }}</td>
+                        <td>{{ sortie.dateLimiteInscription|date("m/d/Y H:i") }}</td>
+
+
+                        <td>
+                            {% if sortie.etat.id == 1 %}
+                                <p>Publiée</p>
+                            {% endif %}
+                            {% if sortie.etat.id == 2 %}
+                                <p>Brouillon</p>
+                            {% endif %}
+                            {% if sortie.etat.id == 3 %}
+                                <p>Annulé</p>
+                            {% endif %}
+                            {% if sortie.etat.id == 5 %}
+                                <p>Evenement en cours</p>
+                            {% endif %}
+                            {% if sortie.etat.id == 6 %}
+                                <p>Evenement terminée</p>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if (app.user not in sortie.idparticipant) %}
+                                <p>X</p>
+                            {% endif %}
+                            {% if(app.user in sortie.idparticipant) %}
+                                <p>O</p>
+                            {% endif %}
+                        </td>
+                        <td>{{ sortie.idparticipant|length }} / {{ sortie.nbInscriptionsMax }}</td>
+                        <td>
+                            {{ app.user.pseudo }}
+                        </td>
+                        <td><a href="{{ url('sortie_detailSortie', {'id': sortie.id}) }}">Afficher</a></td>
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
